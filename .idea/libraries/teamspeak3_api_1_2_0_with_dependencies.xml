@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="teamspeak3-api-1.2.0-with-dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/packages/gson-2.8.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/packages/teamspeak3-api-1.2.0-with-dependencies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
