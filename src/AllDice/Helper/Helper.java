@@ -200,6 +200,10 @@ public class Helper {
     public static String blanc_cth_Output =
             "--$AUTHOR$--\n" +
                     "Ergebnis: $RANDNUMBER$ / ( $INPUTNUMBERS0$ +$INPUTNUMBERS1$ ) => $RESULT$";
+    public static String blanc_dim_Output =
+            "--$AUTHOR$--\n" +
+                    "Ergebnis: $RANDNUMBER$ +$INPUTNUMBER$ = $RESSUM$\n" +
+                    "=> $RESULT$";
 
     public static List<String> possibleClientNicknames = new ArrayList<>();
 }

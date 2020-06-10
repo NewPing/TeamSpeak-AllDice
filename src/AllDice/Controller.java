@@ -90,7 +90,7 @@ public class Controller {
 
     public void invokeCreateNewClientInstance() {
         try{
-            //clients.add(new Client(this, settings.ip, settings.username, settings.password));
+            clients.add(new Client(this, settings.ip, settings.username, settings.password));
         } catch (Exception ex) {
             System.out.println("Exception in invokeCreateNewClientInstance... " + ex);
         }

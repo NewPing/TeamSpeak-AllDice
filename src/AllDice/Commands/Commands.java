@@ -88,10 +88,17 @@ public class Commands {
             ));
             add(new CommandDef(
                     "Cthulhu Probe",
-                    "!cth(zahl)",
+                    "!cth(zahl)(+/-zahl)",
                     "Würfelt einen Cthulhu Probewurf",
-                    "!cth50",
+                    "!cth50+2",
                     new CTH()
+            ));
+            add(new CommandDef(
+                    "Dimensions Probe",
+                    "!d(+/-zahl)",
+                    "Würfelt einen W30 mit Modifikator",
+                    "!d+5",
+                    new DIM()
             ));
         }
     };
