@@ -50,7 +50,7 @@ public class DIM extends Command {
             } else if (sum <= 10){
                 result = "Erfolg";
             } else if (sum <= 15){
-                result = "Leicher Erfolg";
+                result = "Leichter Erfolg";
             } else if (sum <= 20){
                 result = "Leichter Misserfolg";
             } else if (sum <= 25){
