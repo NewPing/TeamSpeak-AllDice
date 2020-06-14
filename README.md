@@ -4,7 +4,7 @@ Currently AllDice only supports german as a output language, different output la
 
 # Which settings are supported?
 AllDice supports many different commands for different settings.
-These include several Savage-World, DSA and several different test throw's.
+These include several SavageWorld, DSA and other different test throw's.
 Commands for settings like Fu and Fate will also be added in future updates.
 
 # How do i install TeamSpeak-AllDice?
