@@ -30,7 +30,7 @@ You will notice that AllDice doesnt respond to most of the other commands, that 
 When you are done using AllDice, you can simply type "!leave" or just leave the TeamSpeak Server yourself.
 
 # Further technical details
-TeamSpeak-AllDice is not a single TeamSpeak query client, its more a bot network.
+TeamSpeak-AllDice is not a single TeamSpeak query client, its more like a bot network.
 After assigning AllDice to yourself - another bot instance will be created, joins the server and moves into the specified channel in the settings.json.
 This garanties that multiple P&P sessions can be held at a time, each with its own bot.
 Sadly there is a limit how many sessions of queryclients with the same identity can be active at the same time, this limits the number of bots which can be used on a TeamSpeak server (experience may vary from servers to server, i experienced a limit of five bots).
