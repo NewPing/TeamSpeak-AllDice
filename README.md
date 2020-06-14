@@ -3,10 +3,16 @@ Is a TeamSpeak-Text-Bot which enables every user on a TeamSpeak-Server to roll d
 Currently AllDice only supports german as a output language, different output languages may be added in a future updates or on request.
 (Notice that AllDice isnt a single bot, its more like a bot network which supports up to five independent bots on one server which are crated automatically after assigning one of the bots to yourself - more on that later)
 
-# Which P&P settings are supported?
+# Which P&P systems are supported and which are not?
 AllDice supports many different commands for different settings.
-These include several SavageWorld, DSA and other different test throw's.
-Commands for settings like Fu and Fate will also be added in future updates.
+| Setting | Status |
+| --- | --- |
+| Savage Worlds | supported |
+| DSA | Supported |
+| Cthuhlu | Supported |
+| Fate | future release |
+| Fu | future release |
+And many other custom commands.
 
 # How do i install TeamSpeak-AllDice?
 First of all you have to know that AllDice is a QueryClient and needs a server or something similar which supports Java (eg. a Raspberry Pi) to run on.
