@@ -1,7 +1,7 @@
 # TeamSpeak-AllDice
 Is a TeamSpeak text bot which enables every user on a TeamSpeak server to roll dices which are evaluated depending on the used inputcommand.
-Currently AllDice only supports german as a output language, different output languages may be added in a future updates or on request.
-(Notice that AllDice isnt a single bot, its more like a bot network - more on that later)
+Currently AllDice only supports german as a output language, different output languages may be added in a future update or on request.
+(Notice: AllDice isnt a single bot, its more like a bot network - more on that later)
 
 # Which P&P systems are supported?
 AllDice supports many different commands for different settings.
@@ -34,4 +34,4 @@ TeamSpeak-AllDice is not a single TeamSpeak query client, its more like a bot ne
 After assigning AllDice to yourself - another bot instance will be created, joins the server and moves into the specified channel in the settings.json.
 This garanties that multiple P&P sessions can be held at a time, each with its own bot.
 Sadly there is a limit how many sessions of queryclients with the same identity can be active at the same time, this limits the number of bots which can be used on a TeamSpeak server (experience may vary from servers to server, i experienced a limit of five bots).
-If the limit is reached, the server may ban the bot for several minutes and you it can happen that you then have to restart AllDice (a option to set a session limit in the setttings.json may be added later).
+If the limit is reached, the server may ban the bot for several minutes and you it can happen that you then have to restart AllDice (a option to set a session limit in the setttings.json may be added in a future update).
