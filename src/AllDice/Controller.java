@@ -1,8 +1,7 @@
 package AllDice;
 
-import AllDice.Helper.FileIO;
-import AllDice.Helper.Helper;
-import AllDice.Helper.JDictionary;
+import AllDice.Helper.*;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,6 +15,7 @@ public class Controller {
         errors += loadSettings();
         errors += loadClientNicknames();
         errors += loadUserColors();
+        errors += loadUserConfigs();
 
         if (errors == 0){
             if (!Helper.isNullOrWhitespace(settings.ip) && !Helper.isNullOrWhitespace(settings.username) && !Helper.isNullOrWhitespace(settings.password)){
@@ -88,9 +88,21 @@ public class Controller {
         return 0;
     }
 
+    private int loadUserConfigs(){
+        try{
+            Helper.userConfigs = FileIO.deserializeFromFile("userconfigs.json", UserConfigs.class);
+            if (Helper.userConfigs == null) {
+                Helper.userConfigs = new UserConfigs();
+            }
+        } catch (Exception ex){
+            System.out.println("Exception in: loadUserFateConfig: couldnt load userconfigs.json... continueing anyway...");
+        }
+        return 0;
+    }
+
     public void invokeCreateNewClientInstance() {
         try{
-            clients.add(new Client(this, settings.ip, settings.username, settings.password));
+            //clients.add(new Client(this, settings.ip, settings.username, settings.password));
         } catch (Exception ex) {
             System.out.println("Exception in invokeCreateNewClientInstance... " + ex);
         }
@@ -116,7 +128,7 @@ public class Controller {
         public void run() {
             if (controller.clients.size() == 0) {
                 System.out.println("Running keep alive procedure...");
-                new Thread(() -> controller.invokeCreateNewClientInstance()).start();
+                //new Thread(() -> controller.invokeCreateNewClientInstance()).start();
             }
         }
     }

@@ -16,6 +16,7 @@ public class Client {
     public int clientID = -1;
     public int currentChannelID = -1;
     public int followClientID = -1;
+    public String followClientUniqueID = "-1";
     public TS3Api api = null;
     public TS3Query query = null;
 

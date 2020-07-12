@@ -16,6 +16,7 @@ public class Follow extends Command {
     public void execute(TextMessageEvent textEvent, Client client) {
         if (client.followClientID == -1){
             client.followClientID = textEvent.getInvokerId();
+            client.followClientUniqueID = textEvent.getInvokerUniqueId();
             Helper.sendMessage(textEvent, client, "following you now", false ,false);
             try{
                 client.api.moveClient(client.clientID, client.api.getClientInfo(textEvent.getInvokerId()).getChannelId());

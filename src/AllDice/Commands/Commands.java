@@ -100,6 +100,20 @@ public class Commands {
                     "!d+5",
                     new DIM()
             ));
+            add(new CommandDef(
+                    "Fate Probe",
+                    "!f(skill)(+/-)(mod),(goal)/(f(skill2)(+/-)(mod2))",
+                    "Würfelt einen Fate Probewurf",
+                    "!f5+2,3",
+                    new Fate()
+            ));
+            add(new CommandDef(
+                    "Fate Config",
+                    "!fconfig (option) (new output)",
+                    "Ermöglicht das setzen der Ausgabetexte von abilityHigh, abilityLow und outcomeHigh",
+                    "!fconfig outcome Unbeschreibbar",
+                    new FateConfig()
+            ));
         }
     };
 

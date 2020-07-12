@@ -4,7 +4,6 @@ import AllDice.Client;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +13,7 @@ public class Helper {
     public static int commandIndexCounter = 1;
     public static int swPass = 4;
     public static JDictionary<String> userColor = new JDictionary<>();
+    public static UserConfigs userConfigs = new UserConfigs();
 
     public static void sendMessage(TextMessageEvent textEvent, Client client, String message, boolean ignoreFollowFlag, Boolean forcePrivate) {
         if (client.followClientID != -1 || ignoreFollowFlag) {
@@ -35,8 +35,20 @@ public class Helper {
         }
     }
 
+    public static UserConfig getUserConfig(String uniqueUserID) {
+        if (Helper.userConfigs.userConfigs.contains(uniqueUserID)) {
+            return Helper.userConfigs.userConfigs.get(uniqueUserID);
+        } else {
+            return null;
+        }
+    }
+
     public static int getRandomNumber(int maxValue) {
         return random.nextInt(maxValue) +1;
+    }
+
+    public static int getRandomNumber(int minValue, int maxValue) {
+        return random.nextInt((maxValue - minValue) + 1) + minValue;
     }
 
     public static Tuple<Integer, String> getExplodingDice(int diceSides) {
@@ -128,6 +140,82 @@ public class Helper {
         return ret;
     }
 
+    public static String getFateAbilityName(int ability, String abilityHighName, String abilityLowName){
+        switch (ability)
+        {
+            case 8:
+                return "Legendär";
+            case 7:
+                return "Episch";
+            case 6:
+                return "Fantastisch";
+            case 5:
+                return "Hervorragend";
+            case 4:
+                return "Großartig";
+            case 3:
+                return "Gut";
+            case 2:
+                return "Ordentlich";
+            case 1:
+                return "Durchschnittlich";
+            case 0:
+                return "Mäßig";
+            case -1:
+                return "Schwach";
+            case -2:
+                return "Fürchterlich";
+        }
+
+        if (ability > 8){
+            return abilityHighName;
+        } else {
+            return abilityLowName;
+        }
+    }
+
+    public static String getFateOutcomeName(int outcome, String outcomeHighName){
+        switch (outcome)
+        {
+            case 4:
+                return "⏫ Voller Erfolg";
+            case 3:
+                return "🔼 Erfolg";
+            case 2:
+                return "🔼 Erfolg";
+            case 1:
+                return "⏸️ Gleichstand";
+            case 0:
+                return "🔽 Fehlschlag oder Erfolg mit Haken";
+        }
+
+        if (outcome > 4) {
+            return "♾ ️" + outcomeHighName;
+        } else {
+            return "⏬ Fehlschlag";
+        }
+    }
+
+    public static String getFateEmojis(int[] rolls){
+        String result = "";
+        for(int i = 0; i < rolls.length -1; i++){
+             switch (rolls[i]){
+                 case -1:
+                     result += "🔽";
+                     break;
+                 case 0:
+                     result += "⏺️";
+                     break;
+                 case 1:
+                     result += "🔼";
+                     break;
+                 default:
+                     result += "SHIT";
+             }
+        }
+        return result;
+    }
+
     public static String getRandomNickname(ArrayList<String> alreadyUsedNicknames)
     {
         List<String> possibleNames = new ArrayList<>(possibleClientNicknames);
@@ -204,6 +292,20 @@ public class Helper {
             "--$AUTHOR$--\n" +
                     "Ergebnis: $RANDNUMBER$ +$INPUTNUMBER$ = $RESSUM$\n" +
                     "=> $RESULT$";
+    public static String blanc_fate_passive_Output =
+            "--$AUTHOR$--\n" +
+                    "Fertigkeit ist $SKILL$+$MOD$, passiver Widerstand ist eine $GOAL$.\n\n" +
+                    "Wurf: $EMOJIS$ = $RESULT$\n" +
+                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ($ABILITYNAME$)\n" +
+                    "Ergebnis: $OUTCOME$ ($OUTCOMENAME$)";
+    public static String blanc_fate_active_Output =
+            "--$AUTHOR$--\n" +
+                    "Fertigkeit ist $SKILL$+$MOD$, aktiver Widerstand ist Fertigkeit $SKILLOPPONENT$+$MODOPPONENT$.\n\n" +
+                    "Wurf Spieler: $EMOJIS$ = $RESULT$\n" +
+                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ($ABILITYNAME$)\n" +
+                    "Wurf Widerstand: $EMOJISOPPONENT$ = $RESULTOPPONENT$\n" +
+                    "Rechnung: $RESULTOPPONENT$+$SKILLOPPONENT$+$MODOPPONENT$ = $ABILITYOPPONENT$ ($ABILITYNAMEOPPONENT$)\n" +
+                    "Ergebnis: $OUTCOME$ ($OUTCOMENAME$)";
 
     public static List<String> possibleClientNicknames = new ArrayList<>();
 }
