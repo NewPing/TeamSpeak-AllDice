@@ -1,7 +1,7 @@
 package AllDice;
 
 public class Settings {
-    public boolean debug = true;
+    public int debug = 0;
     public String ip = "";
     public String username = "";
     public String password = "";

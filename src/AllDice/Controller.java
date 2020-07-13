@@ -102,7 +102,7 @@ public class Controller {
 
     public void invokeCreateNewClientInstance() {
         try{
-            if (settings.debug == false){
+            if (settings.debug == 0){
                 clients.add(new Client(this, settings.ip, settings.username, settings.password));
             }
         } catch (Exception ex) {
@@ -130,7 +130,7 @@ public class Controller {
         public void run() {
             if (controller.clients.size() == 0) {
                 System.out.println("Running keep alive procedure...");
-                if (settings.debug == false){
+                if (settings.debug == 0){
                     new Thread(() -> controller.invokeCreateNewClientInstance()).start();
                 }
             }
