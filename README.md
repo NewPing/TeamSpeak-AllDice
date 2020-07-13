@@ -10,7 +10,7 @@ AllDice supports many different commands for different settings.
 | Savage Worlds | Supported |
 | DSA | Supported |
 | Cthuhlu | Supported |
-| Fate | Future release |
+| Fate | Supported |
 | Fu | Future release |
 
 And many other custom commands.
