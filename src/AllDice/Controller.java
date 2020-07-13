@@ -102,7 +102,9 @@ public class Controller {
 
     public void invokeCreateNewClientInstance() {
         try{
-            //clients.add(new Client(this, settings.ip, settings.username, settings.password));
+            if (settings.debug == false){
+                clients.add(new Client(this, settings.ip, settings.username, settings.password));
+            }
         } catch (Exception ex) {
             System.out.println("Exception in invokeCreateNewClientInstance... " + ex);
         }
@@ -128,7 +130,9 @@ public class Controller {
         public void run() {
             if (controller.clients.size() == 0) {
                 System.out.println("Running keep alive procedure...");
-                //new Thread(() -> controller.invokeCreateNewClientInstance()).start();
+                if (settings.debug == false){
+                    new Thread(() -> controller.invokeCreateNewClientInstance()).start();
+                }
             }
         }
     }
