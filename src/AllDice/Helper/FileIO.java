@@ -19,7 +19,7 @@ public class FileIO {
 
             writeAllText(filename, json);
         } catch (Exception ex) {
-            Helper.log(ex.toString());
+            LogManager.log(ex.toString());
         }
     }
 
@@ -30,9 +30,65 @@ public class FileIO {
             Gson gson = new Gson();
             return gson.fromJson(json, classOfT);
         } catch (Exception ex) {
-            Helper.log(ex.toString());
+            LogManager.log(ex.toString());
         }
         return null;
+    }
+
+    public static boolean exists(String subPath){
+        Path path = null;
+
+        try {
+            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+                path = Paths.get(URI.create("file:/" + (System.getProperty("user.dir") + "\\" + subPath).replace("\\", "/")));
+            } else {
+                path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + subPath).replace("\\", "/")));
+            }
+
+            return Files.exists(path);
+        } catch (Exception ex) {
+            LogManager.log("Error in FileIO.exists: " + ex);
+            throw ex;
+        }
+    }
+
+    public static void createDirectory(String dirPath){
+        Path path = null;
+
+        try {
+            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+                path = Paths.get(URI.create("file:/" + (System.getProperty("user.dir") + "\\" + dirPath).replace("\\", "/")));
+            } else {
+                path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + dirPath).replace("\\", "/")));
+            }
+
+            Files.createDirectory(path);
+        } catch (Exception ex) {
+            LogManager.log("Error in FileIO.createDirectory: " + ex);
+        }
+    }
+
+    public static void fileMove(String filename, String newFilename){
+        Path path = null;
+        Path path2 = null;
+
+        try {
+            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+                path = Paths.get(URI.create("file:/" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
+            } else {
+                path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
+            }
+
+            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+                path2 = Paths.get(URI.create("file:/" + (System.getProperty("user.dir") + "\\" + newFilename).replace("\\", "/")));
+            } else {
+                path2 = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + newFilename).replace("\\", "/")));
+            }
+
+            Files.move(path, path2);
+        } catch (Exception ex) {
+            LogManager.log("Error in FileIO.fileMove: " + ex);
+        }
     }
 
     public static void writeAllLines(String filename, ArrayList<String> lines){
@@ -47,12 +103,8 @@ public class FileIO {
 
             Files.write(path, lines);
         } catch (Exception ex) {
-            Helper.log("Error in FileIO.writeAllLines: " + ex);
+            LogManager.log("Error in FileIO.writeAllLines: " + ex);
         }
-    }
-
-    public static void writeLog(){
-
     }
 
     public static void writeAllText(String filename, String text){
@@ -69,9 +121,28 @@ public class FileIO {
             writer.write(text);
             writer.close();
         } catch (Exception ex) {
-            Helper.log("Error in FileIO.writeAllText: " + ex);
+            LogManager.log("Error in FileIO.writeAllText: " + ex);
         }
     }
+
+    public static void appendAllText(String filename, String text){
+        Path path = null;
+
+        try {
+            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+                path = Paths.get(URI.create("file:/" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
+            } else {
+                path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
+            }
+
+            FileWriter writer = new FileWriter(path.toString(), true);
+            writer.write(text + "\n");
+            writer.close();
+        } catch (Exception ex) {
+            LogManager.log("Error in FileIO.appendAllText: " + ex);
+        }
+    }
+
     public static String readAllText(String filename) {
         String text = "";
         Path path = null;
@@ -87,7 +158,7 @@ public class FileIO {
                 text = String.join(" ", Files.readAllLines(path));
             }
         } catch (Exception ex) {
-            Helper.log("Error in FileIO.readAllText: " + ex);
+            LogManager.log("Error in FileIO.readAllText: " + ex);
         }
 
         return text;
@@ -109,7 +180,7 @@ public class FileIO {
                 lines = (ArrayList<String>) Files.readAllLines(path);
             }
         } catch (Exception ex) {
-            Helper.log("Error in FileIO.readFileAsList: " + ex);
+            LogManager.log("Error in FileIO.readFileAsList: " + ex);
         }
 
         return lines;
@@ -129,23 +200,7 @@ public class FileIO {
                 Files.delete(path);
             }
         } catch (Exception ex) {
-            Helper.log("Error in FileIO.deleteFile: " + ex);
-        }
-    }
-
-    public static void appendAllLinesToFile(String filename, ArrayList<String> configBlanc) {
-        Path path = null;
-
-        try {
-            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
-                path = Paths.get(URI.create("file:/" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
-            } else {
-                path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
-            }
-
-            Files.write(path, configBlanc);
-        } catch (Exception ex) {
-            Helper.log("Error in FileIO.appendAllLinesToFile: " + ex);
+            LogManager.log("Error in FileIO.deleteFile: " + ex);
         }
     }
 
@@ -158,7 +213,7 @@ public class FileIO {
                 path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
             }
         } catch (Exception ex) {
-            Helper.log("Error in FileIO.getFilePath: " + ex);
+            LogManager.log("Error in FileIO.getFilePath: " + ex);
         }
 
         return path;

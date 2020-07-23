@@ -20,7 +20,7 @@ public class Helper {
     public static List<String> possibleClientNicknames = new ArrayList<>();
 
     public static void sendMessage(TextMessageEvent textEvent, Client client, String message, Boolean forcePrivate) {
-        Helper.log("Output: " + message);
+        LogManager.log("Output: " + message);
         if (forcePrivate) {
             client.api.sendTextMessage(TextMessageTargetMode.CLIENT, textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
         } else {
@@ -43,10 +43,6 @@ public class Helper {
         } else {
             return null;
         }
-    }
-
-    public static void log(String text){
-        System.out.println(text);
     }
 
     public static int getRandomNumber(int maxValue) {
@@ -243,7 +239,7 @@ public class Helper {
         com.github.theholywaffle.teamspeak3.api.wrapper.Client client = getClientByUniqueId(textEvent.getInvokerUniqueId(), _client);
         List<ServerGroup> groups = _client.api.getServerGroupsByClientId(client.getDatabaseId());
         for (int i = 0; i < groups.size(); i++){
-            if (groups.get(i).getName().toLowerCase().equals(_client.controller.settings.alldiceAdminGroupName.toLowerCase())){
+            if (groups.get(i).getName().toLowerCase().equals(_client.controller.settings.adminGroupName.toLowerCase())){
                 return true;
             }
         }

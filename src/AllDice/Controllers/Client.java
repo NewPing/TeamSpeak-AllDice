@@ -1,6 +1,7 @@
 package AllDice.Controllers;
 
 import AllDice.Helper.Helper;
+import AllDice.Helper.LogManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
@@ -37,9 +38,9 @@ public class Client {
                 query.connect();
                 api = query.getApi();
                 api.login(username,password);
-                api.selectVirtualServerById(1);
+                api.selectVirtualServerById(controller.settings.virtualServerID);
             } catch (Exception ex) {
-                Helper.log("Exception in client constructor... are you sure the login information are set correctly?" + ex);
+                LogManager.log("Exception in client constructor... are you sure the login information are set correctly?" + ex);
             }
 
             clientID = api.whoAmI().getId();
@@ -48,15 +49,17 @@ public class Client {
             setNickname(api);
 
             try{
-                api.moveClient(clientID, api.getChannelsByName(controller.settings.standardChannelName).get(0).getId());
+                if (Helper.isNullOrWhitespace(controller.settings.standardChannelName) == false){
+                    api.moveClient(clientID, api.getChannelsByName(controller.settings.standardChannelName).get(0).getId());
+                }
             } catch (Exception ex) {
-                Helper.log("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
+                LogManager.log("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
             }
 
             initializeEvents(api, query, this);
-            Helper.log("Client " + clientID + " + started successfully!");
+            LogManager.log("Client " + clientID + " started successfully!");
         } catch ( Exception ex){
-            Helper.log("Exception in client constructor: " + ex);
+            LogManager.log("Exception in client constructor: " + ex);
             controller.clientLeave(clientID);
             query.exit();
         }
@@ -77,7 +80,7 @@ public class Client {
                 api.setNickname(nickname);
             }
         } catch (Exception e) {
-            Helper.log(e.toString());
+            LogManager.log(e.toString());
         }
     }
 

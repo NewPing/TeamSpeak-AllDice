@@ -3,6 +3,7 @@ package AllDice.Commands;
 import AllDice.Controllers.Client;
 import AllDice.Controllers.Commands;
 import AllDice.Helper.Helper;
+import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
 import AllDice.Models.CommandDef;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -54,7 +55,7 @@ public class AdminHelp extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Helper.log("Error in AdminHelp with input: " + textEvent.getMessage() + "\n\n" + ex);
+            LogManager.log("Error in AdminHelp with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }

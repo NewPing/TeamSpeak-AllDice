@@ -5,6 +5,8 @@ public class Settings {
     public String ip = "";
     public String username = "";
     public String password = "";
-    public String alldiceAdminGroupName = "";
+    public int virtualServerID = 1;
+    public String adminGroupName = "";
     public String standardChannelName = "";
+    public boolean writeLog = true;
 }

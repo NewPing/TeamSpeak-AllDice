@@ -1,6 +1,7 @@
 package AllDice.Controllers;
 import AllDice.Commands.*;
 import AllDice.Helper.Helper;
+import AllDice.Helper.LogManager;
 import AllDice.Models.CommandDef;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import java.text.SimpleDateFormat;
@@ -172,21 +173,21 @@ public class Commands {
                 if (client.followClientID != -1 || commands.get(i).ignoreFollowFlag) {
                     if (commands.get(i).requiresAllDiceAdminGroup){
                         if (Helper.isUserAllDiceAdmin(messageEvent, client)){
-                            Helper.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
-                            Helper.log("User: " + messageEvent.getInvokerName());
-                            Helper.log("Input: " + messageEvent.getMessage());
+                            LogManager.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
+                            LogManager.log("User: " + messageEvent.getInvokerName());
+                            LogManager.log("Input: " + messageEvent.getMessage());
                             Helper.sendMessage(messageEvent, client, "Command requires elevated permissions - Executing ...", false);
                             commands.get(i).command.execute(messageEvent, client);
                         } else {
-                            Helper.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
-                            Helper.log("User: " + messageEvent.getInvokerName());
-                            Helper.log("Input: " + messageEvent.getMessage());
+                            LogManager.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
+                            LogManager.log("User: " + messageEvent.getInvokerName());
+                            LogManager.log("Input: " + messageEvent.getMessage());
                             Helper.sendMessage(messageEvent, client, "Command requires elevated permissions - Execution denied ...", false);
                         }
                     } else {
-                        Helper.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
-                        Helper.log("User: " + messageEvent.getInvokerName());
-                        Helper.log("Input: " + messageEvent.getMessage());
+                        LogManager.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
+                        LogManager.log("User: " + messageEvent.getInvokerName());
+                        LogManager.log("Input: " + messageEvent.getMessage());
                         commands.get(i).command.execute(messageEvent, client);
                     }
                 }

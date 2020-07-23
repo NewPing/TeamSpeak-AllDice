@@ -2,6 +2,7 @@ package AllDice.Commands;
 
 import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class DIM extends Command {
             Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Helper.log("Error in CTH with input: " + textEvent.getMessage() + "\n\n" + ex);
+            LogManager.log("Error in CTH with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

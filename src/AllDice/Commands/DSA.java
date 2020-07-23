@@ -2,6 +2,7 @@ package AllDice.Commands;
 
 import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Helper.LogManager;
 import AllDice.Helper.Tuple;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -82,7 +83,7 @@ public class DSA extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Helper.log("Error in SWD with input: " + textEvent.getMessage() + "\n\n" + ex);
+            LogManager.log("Error in SWD with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 

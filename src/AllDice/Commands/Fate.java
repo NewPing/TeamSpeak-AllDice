@@ -2,6 +2,7 @@ package AllDice.Commands;
 
 import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
 import AllDice.Models.UserConfig;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -43,13 +44,13 @@ public class Fate extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Helper.log("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
+            LogManager.log("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 
     private void executePassive(TextMessageEvent textEvent, Client client, String outcomeHighName, String abilityHighName, String abilityLowName){
         try{
-            Helper.log("Test");
+            LogManager.log("Test");
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
             String blancOutput = Helper.blanc_fate_passive_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());

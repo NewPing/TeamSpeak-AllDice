@@ -71,7 +71,7 @@ public class FateConfig extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Helper.log("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
+            LogManager.log("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }
