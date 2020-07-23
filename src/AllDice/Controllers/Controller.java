@@ -1,6 +1,8 @@
-package AllDice;
+package AllDice.Controllers;
 
 import AllDice.Helper.*;
+import AllDice.Models.Settings;
+import AllDice.Models.UserConfigs;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -9,6 +11,7 @@ import java.util.TimerTask;
 public class Controller {
     public static ArrayList<Client> clients = new ArrayList<>();
     public static Settings settings;
+    public static final String Version = "1.2";
 
     public Controller() {
         int errors = 0;
@@ -20,10 +23,10 @@ public class Controller {
         if (errors == 0){
             if (!Helper.isNullOrWhitespace(settings.ip) && !Helper.isNullOrWhitespace(settings.username) && !Helper.isNullOrWhitespace(settings.password)){
                 try {
-                    System.out.println("Starting ...");
+                    Helper.log("Starting ...");
                     clients.add(new Client(this, settings.ip, settings.username, settings.password));
                 } catch (Exception ex) {
-                    System.out.println("Exception in Controller... " + ex);
+                    Helper.log("Exception in Controller... " + ex);
                     clients.clear();
                 }
 
@@ -31,10 +34,10 @@ public class Controller {
                 TimerTask checkStayAlive = new CheckStayAlive(this);
                 timerStayAlive.scheduleAtFixedRate(checkStayAlive, 1000, 30000);
             } else {
-                System.out.println("Server IP, Query Username or Password not set...");
+                Helper.log("Server IP, Query Username or Password not set...");
             }
         } else {
-            System.out.println("Errors detected while startup...\nstopped start precedure...");
+            Helper.log("Errors detected while startup...\nstopped start precedure...");
         }
     }
 
@@ -44,12 +47,12 @@ public class Controller {
             if (settings == null) {
                 FileIO.serializeToFile("settings.json", new Settings());
 
-                System.out.println("Couldnt find file '" + FileIO.getFilePath("settings.json") + "' or all needed parameters" +
+                Helper.log("Couldnt find file '" + FileIO.getFilePath("settings.json") + "' or all needed parameters" +
                         "\n-> created it... please open the file and check the settings");
                 return 1;
             }
         } catch (Exception ex){
-            System.out.println("Exception in: loadSettings ... \n" + ex);
+            Helper.log("Exception in: loadSettings ... \n" + ex);
             return 1;
         }
         return 0;
@@ -65,12 +68,12 @@ public class Controller {
                 Helper.possibleClientNicknames.add("AllDice3");
                 FileIO.serializeToFile("nicknames.json", Helper.possibleClientNicknames);
 
-                System.out.println("Couldnt find file '" + FileIO.getFilePath("nicknames.json") + "' or all needed parameters" +
+                Helper.log("Couldnt find file '" + FileIO.getFilePath("nicknames.json") + "' or all needed parameters" +
                         "\n-> created it... please open the file and check the nicknames");
                 return 1;
             }
         } catch (Exception ex){
-            System.out.println("Exception in: loadClientNicknames ... \n" + ex);
+            Helper.log("Exception in: loadClientNicknames ... \n" + ex);
             return 1;
         }
         return 0;
@@ -83,7 +86,7 @@ public class Controller {
                 Helper.userColor = new JDictionary<>();
             }
         } catch (Exception ex){
-            System.out.println("Exception in: loadUserColor: couldnt load usercolors.json... continueing anyway...");
+            Helper.log("Exception in: loadUserColor: couldnt load usercolors.json... continueing anyway...");
         }
         return 0;
     }
@@ -95,7 +98,7 @@ public class Controller {
                 Helper.userConfigs = new UserConfigs();
             }
         } catch (Exception ex){
-            System.out.println("Exception in: loadUserFateConfig: couldnt load userconfigs.json... continueing anyway...");
+            Helper.log("Exception in: loadUserFateConfig: couldnt load userconfigs.json... continueing anyway...");
         }
         return 0;
     }
@@ -106,7 +109,7 @@ public class Controller {
                 clients.add(new Client(this, settings.ip, settings.username, settings.password));
             }
         } catch (Exception ex) {
-            System.out.println("Exception in invokeCreateNewClientInstance... " + ex);
+            Helper.log("Exception in invokeCreateNewClientInstance... " + ex);
         }
     }
 
@@ -129,7 +132,7 @@ public class Controller {
         @Override
         public void run() {
             if (controller.clients.size() == 0) {
-                System.out.println("Running keep alive procedure...");
+                Helper.log("Running keep alive procedure...");
                 if (settings.debug == 0){
                     new Thread(() -> controller.invokeCreateNewClientInstance()).start();
                 }

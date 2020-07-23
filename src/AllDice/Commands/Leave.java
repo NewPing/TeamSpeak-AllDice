@@ -1,7 +1,8 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 public class Leave extends Command {
@@ -15,7 +16,7 @@ public class Leave extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         if (textEvent.getInvokerId() == client.followClientID){
-            Helper.sendMessage(textEvent, client, "leaving...", false ,false);
+            Helper.sendMessage(textEvent, client, "leaving...", false);
             client.controller.clientLeave(client.clientID);
             client.query.exit();
         }

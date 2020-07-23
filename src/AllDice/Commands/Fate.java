@@ -1,9 +1,9 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
-import AllDice.Helper.JDictionary;
-import AllDice.Helper.UserConfig;
+import AllDice.Models.Command;
+import AllDice.Models.UserConfig;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import java.util.ArrayList;
 
@@ -42,14 +42,14 @@ public class Fate extends Command {
                 executeActive(textEvent, client, outcomeHighName, abilityHighName, abilityLowName);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false ,false);
-            System.out.println("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.log("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 
     private void executePassive(TextMessageEvent textEvent, Client client, String outcomeHighName, String abilityHighName, String abilityLowName){
         try{
-            System.out.println("Test");
+            Helper.log("Test");
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
             String blancOutput = Helper.blanc_fate_passive_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -118,7 +118,7 @@ public class Fate extends Command {
             reply = reply.replace("$OUTCOMENAME$", Helper.getFateOutcomeName(outcome, outcomeHighName));
             reply = reply.replace("$EMOJIS$", Helper.getFateEmojis(rolls));
 
-            Helper.sendMessage(textEvent, client, reply, false ,false);
+            Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
             throw ex;
         }
@@ -192,7 +192,7 @@ public class Fate extends Command {
             reply = reply.replace("$OUTCOMENAME$", Helper.getFateOutcomeName(outcome, outcomeHighName));
             reply = reply.replace("+-", "-");
 
-            Helper.sendMessage(textEvent, client, reply, false ,false);
+            Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
             throw ex;
         }

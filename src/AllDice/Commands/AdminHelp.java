@@ -9,8 +9,8 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 import java.util.ArrayList;
 
-public class Help extends Command {
-    public static String matchPattern = "^!help(:?((:?( )?)[0-9]+)?)(?: +)?$";
+public class AdminHelp extends Command {
+    public static String matchPattern = "^!adminhelp(:?((:?( )?)[0-9]+)?)(?: +)?$";
 
     @Override
     public boolean check(String input) {
@@ -20,12 +20,12 @@ public class Help extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String reply = "Alldice-Helppage:\n";
+            String reply = "Alldice-Admin-Helppage:\n";
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
 
             if (values.size() == 0){
                 for (CommandDef command : Commands.commands) {
-                    if (command.requiresAllDiceAdminGroup == false){
+                    if (command.requiresAllDiceAdminGroup){
                         reply += command.index + " -\t" + command.name + "\t" + command.syntax + "\n";
                     }
                 }
@@ -35,7 +35,7 @@ public class Help extends Command {
                 int inputNumber = Integer.parseInt(values.get(0));
 
                 for (CommandDef command : Commands.commands){
-                    if (command.requiresAllDiceAdminGroup == false){
+                    if (command.requiresAllDiceAdminGroup){
                         if (inputNumber == command.index){
                             reply += "Command: " + command.name + "\n";
                             reply += "Syntax: " + command.syntax + "\n";
@@ -54,7 +54,7 @@ public class Help extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Helper.log("Error in Help with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Helper.log("Error in AdminHelp with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }

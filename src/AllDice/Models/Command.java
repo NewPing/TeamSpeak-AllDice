@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Models;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 public abstract class Command {

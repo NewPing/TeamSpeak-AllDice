@@ -1,6 +1,5 @@
-package AllDice;
+package AllDice.Controllers;
 
-import AllDice.Commands.Commands;
 import AllDice.Helper.Helper;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
@@ -40,7 +39,7 @@ public class Client {
                 api.login(username,password);
                 api.selectVirtualServerById(1);
             } catch (Exception ex) {
-                System.out.println("Exception in client constructor... are you sure the login information are set correctly?" + ex);
+                Helper.log("Exception in client constructor... are you sure the login information are set correctly?" + ex);
             }
 
             clientID = api.whoAmI().getId();
@@ -51,13 +50,13 @@ public class Client {
             try{
                 api.moveClient(clientID, api.getChannelsByName(controller.settings.standardChannelName).get(0).getId());
             } catch (Exception ex) {
-                System.out.println("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
+                Helper.log("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
             }
 
             initializeEvents(api, query, this);
-            System.out.println("Client " + clientID + " + started successfully!");
+            Helper.log("Client " + clientID + " + started successfully!");
         } catch ( Exception ex){
-            System.out.println("Exception in client constructor: " + ex);
+            Helper.log("Exception in client constructor: " + ex);
             controller.clientLeave(clientID);
             query.exit();
         }
@@ -78,7 +77,7 @@ public class Client {
                 api.setNickname(nickname);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            Helper.log(e.toString());
         }
     }
 

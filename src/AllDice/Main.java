@@ -1,5 +1,7 @@
 package AllDice;
 
+import AllDice.Controllers.Controller;
+
 public class Main {
 
     private static Controller controller = null;

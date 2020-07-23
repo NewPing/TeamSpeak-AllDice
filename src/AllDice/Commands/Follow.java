@@ -1,7 +1,8 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 public class Follow extends Command {
@@ -17,7 +18,7 @@ public class Follow extends Command {
         if (client.followClientID == -1){
             client.followClientID = textEvent.getInvokerId();
             client.followClientUniqueID = textEvent.getInvokerUniqueId();
-            Helper.sendMessage(textEvent, client, "following you now", false ,false);
+            Helper.sendMessage(textEvent, client, "following you now", false);
             try{
                 client.api.moveClient(client.clientID, client.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
             } catch (Exception ex) { }

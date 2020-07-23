@@ -1,7 +1,8 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 public class SWH extends Command {
@@ -40,10 +41,10 @@ public class SWH extends Command {
             reply = reply.replace("$ZONE0$", zones[0]);
             reply = reply.replace("$ZONE1$", zones[1]);
 
-            Helper.sendMessage(textEvent, client, reply, false ,false);
+            Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false ,false);
-            System.out.println("Error in SWH with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.log("Error in SWH with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

@@ -19,7 +19,7 @@ public class FileIO {
 
             writeAllText(filename, json);
         } catch (Exception ex) {
-            System.out.println(ex);
+            Helper.log(ex.toString());
         }
     }
 
@@ -30,7 +30,7 @@ public class FileIO {
             Gson gson = new Gson();
             return gson.fromJson(json, classOfT);
         } catch (Exception ex) {
-            System.out.println(ex);
+            Helper.log(ex.toString());
         }
         return null;
     }
@@ -47,8 +47,12 @@ public class FileIO {
 
             Files.write(path, lines);
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.writeAllLines: " + ex);
+            Helper.log("Error in FileIO.writeAllLines: " + ex);
         }
+    }
+
+    public static void writeLog(){
+
     }
 
     public static void writeAllText(String filename, String text){
@@ -65,7 +69,7 @@ public class FileIO {
             writer.write(text);
             writer.close();
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.writeAllText: " + ex);
+            Helper.log("Error in FileIO.writeAllText: " + ex);
         }
     }
     public static String readAllText(String filename) {
@@ -83,7 +87,7 @@ public class FileIO {
                 text = String.join(" ", Files.readAllLines(path));
             }
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.readAllText: " + ex);
+            Helper.log("Error in FileIO.readAllText: " + ex);
         }
 
         return text;
@@ -105,7 +109,7 @@ public class FileIO {
                 lines = (ArrayList<String>) Files.readAllLines(path);
             }
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.readFileAsList: " + ex);
+            Helper.log("Error in FileIO.readFileAsList: " + ex);
         }
 
         return lines;
@@ -125,7 +129,7 @@ public class FileIO {
                 Files.delete(path);
             }
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.deleteFile: " + ex);
+            Helper.log("Error in FileIO.deleteFile: " + ex);
         }
     }
 
@@ -141,7 +145,7 @@ public class FileIO {
 
             Files.write(path, configBlanc);
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.appendAllLinesToFile: " + ex);
+            Helper.log("Error in FileIO.appendAllLinesToFile: " + ex);
         }
     }
 
@@ -154,7 +158,7 @@ public class FileIO {
                 path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
             }
         } catch (Exception ex) {
-            System.out.println("Error in FileIO.getFilePath: " + ex);
+            Helper.log("Error in FileIO.getFilePath: " + ex);
         }
 
         return path;

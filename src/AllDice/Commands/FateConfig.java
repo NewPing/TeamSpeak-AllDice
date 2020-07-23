@@ -1,9 +1,11 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.*;
+import AllDice.Models.Command;
+import AllDice.Models.UserConfig;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class FateConfig extends Command {
@@ -40,7 +42,7 @@ public class FateConfig extends Command {
                         }
                         Helper.userConfigs.userConfigs.add(textEvent.getInvokerUniqueId(), userConfig);
 
-                        Helper.sendMessage(textEvent, client, "Neuer Parameterwert für '" + param + "' auf '" + newValue + "' gesetzt...", true ,false);
+                        Helper.sendMessage(textEvent, client, "Neuer Parameterwert für '" + param + "' auf '" + newValue + "' gesetzt...", false);
                         FileIO.serializeToFile("userconfigs.json", Helper.userConfigs);
                     } else if (inputWords.size() == 2) {
                         String param = inputWords.get(1);
@@ -58,18 +60,18 @@ public class FateConfig extends Command {
                         }
                         Helper.userConfigs.userConfigs.add(textEvent.getInvokerUniqueId(), userConfig);
 
-                        Helper.sendMessage(textEvent, client, "Neuer Parameterwert für '" + param + "' auf Standardwert zurückgesetzt...", true, false);
+                        Helper.sendMessage(textEvent, client, "Neuer Parameterwert für '" + param + "' auf Standardwert zurückgesetzt...", false);
                         FileIO.serializeToFile("userconfigs.json", Helper.userConfigs);
                     }
                 } else {
-                    Helper.sendMessage(textEvent, client, "Syntax Error : Anzahl Eingabeparameter müssen >= 2 sein und abilityhigh, abilitylow oder outcomehigh als parameter enthalten!", false ,false);
+                    Helper.sendMessage(textEvent, client, "Syntax Error : Anzahl Eingabeparameter müssen >= 2 sein und abilityhigh, abilitylow oder outcomehigh als parameter enthalten!", false);
                 }
             } else {
-                Helper.sendMessage(textEvent, client, "Command Error : Nur der Eigentümer dieser Würfel darf Sie zinken...", false ,false);
+                Helper.sendMessage(textEvent, client, "Command Error : Nur der Eigentümer dieser Würfel darf Sie zinken...", false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false ,false);
-            System.out.println("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.log("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }

@@ -1,4 +1,4 @@
-package AllDice.Helper;
+package AllDice.Models;
 
 public class UserConfig{
     public String fateOutcomeHighName;

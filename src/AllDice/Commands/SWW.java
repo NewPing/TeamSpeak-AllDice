@@ -1,8 +1,9 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
 import AllDice.Helper.Tuple;
+import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class SWW extends Command {
 
             if (inputNumbers[0] < 2)
             {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 1 sein!", false ,false);
+                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 1 sein!", false);
             }
             else
             {
@@ -84,11 +85,11 @@ public class SWW extends Command {
                     reply = reply.replace("$OUTPUT1$", Helper.getSWResultOutput(explodingDice1.Item1 + inputNumbers[1]));
                 }
 
-                Helper.sendMessage(textEvent, client, reply, false ,false);
+                Helper.sendMessage(textEvent, client, reply, false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false ,false);
-            System.out.println("Error in SWW with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.log("Error in SWW with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

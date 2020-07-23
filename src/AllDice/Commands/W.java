@@ -1,7 +1,8 @@
 package AllDice.Commands;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
+import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class W extends Command {
             {
                 if (inputNumbers[0] < 1)
                 {
-                    Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false, false);
+                    Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                 }
                 else
                 {
@@ -48,7 +49,7 @@ public class W extends Command {
                     sum = randNumbers[0];
                     reply = reply.replace("$RESULT$", String.valueOf(sum));
 
-                    Helper.sendMessage(textEvent, client, reply, false, false);
+                    Helper.sendMessage(textEvent, client, reply, false);
                 }
             }
             else if (inputNumbers.length == 2)
@@ -57,7 +58,7 @@ public class W extends Command {
                 {
                     if (inputNumbers[0] < 1)
                     {
-                        Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false, false);
+                        Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                     }
                     else
                     {
@@ -77,14 +78,14 @@ public class W extends Command {
                         reply = reply.replace("$ADD$", String.valueOf(inputNumbers[1]));
                         reply = reply.replace("$RESULT$", String.valueOf(sum + inputNumbers[1]));
 
-                        Helper.sendMessage(textEvent, client, reply, false, false);
+                        Helper.sendMessage(textEvent, client, reply, false);
                     }
                 }
                 else
                 {
                     if (inputNumbers[0] < 1 || inputNumbers[1] < 1)
                     {
-                        Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false, false);
+                        Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                     }
                     else
                     {
@@ -107,7 +108,7 @@ public class W extends Command {
                         reply = reply.replace("+$RANDNUMBER$", "");
                         reply = reply.replace("$RESULT$", String.valueOf(sum));
 
-                        Helper.sendMessage(textEvent, client, reply, false, false);
+                        Helper.sendMessage(textEvent, client, reply, false);
                     }
                 }
             }
@@ -115,7 +116,7 @@ public class W extends Command {
             {
                 if (inputNumbers[0] < 1)
                 {
-                    Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false, false);
+                    Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                 }
                 else
                 {
@@ -143,12 +144,12 @@ public class W extends Command {
                     reply = reply.replace("$ADD$", String.valueOf(inputNumbers[2]));
                     reply = reply.replace("$RESULT$", String.valueOf(sum + inputNumbers[2]));
 
-                    Helper.sendMessage(textEvent, client, reply, false ,false);
+                    Helper.sendMessage(textEvent, client, reply, false);
                 }
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false, false);
-            System.out.println("Error in W with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.log("Error in W with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

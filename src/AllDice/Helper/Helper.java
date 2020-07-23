@@ -1,8 +1,11 @@
 package AllDice.Helper;
 
-import AllDice.Client;
+import AllDice.Controllers.Client;
+import AllDice.Models.UserConfig;
+import AllDice.Models.UserConfigs;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroup;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -14,15 +17,14 @@ public class Helper {
     public static int swPass = 4;
     public static JDictionary<String> userColor = new JDictionary<>();
     public static UserConfigs userConfigs = new UserConfigs();
+    public static List<String> possibleClientNicknames = new ArrayList<>();
 
-    public static void sendMessage(TextMessageEvent textEvent, Client client, String message, boolean ignoreFollowFlag, Boolean forcePrivate) {
-        if (client.followClientID != -1 || ignoreFollowFlag) {
-            System.out.println("Output: " + message);
-            if (forcePrivate) {
-                client.api.sendTextMessage(TextMessageTargetMode.CLIENT, textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
-            } else {
-                client.api.sendTextMessage(textEvent.getTargetMode(), textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
-            }
+    public static void sendMessage(TextMessageEvent textEvent, Client client, String message, Boolean forcePrivate) {
+        Helper.log("Output: " + message);
+        if (forcePrivate) {
+            client.api.sendTextMessage(TextMessageTargetMode.CLIENT, textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
+        } else {
+            client.api.sendTextMessage(textEvent.getTargetMode(), textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
         }
     }
 
@@ -41,6 +43,10 @@ public class Helper {
         } else {
             return null;
         }
+    }
+
+    public static void log(String text){
+        System.out.println(text);
     }
 
     public static int getRandomNumber(int maxValue) {
@@ -233,6 +239,27 @@ public class Helper {
         }
     }
 
+    public static boolean isUserAllDiceAdmin(TextMessageEvent textEvent, Client _client) {
+        com.github.theholywaffle.teamspeak3.api.wrapper.Client client = getClientByUniqueId(textEvent.getInvokerUniqueId(), _client);
+        List<ServerGroup> groups = _client.api.getServerGroupsByClientId(client.getDatabaseId());
+        for (int i = 0; i < groups.size(); i++){
+            if (groups.get(i).getName().toLowerCase().equals(_client.controller.settings.alldiceAdminGroupName.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static com.github.theholywaffle.teamspeak3.api.wrapper.Client getClientByUniqueId(String uniqueIdentifier, Client client){
+        List<com.github.theholywaffle.teamspeak3.api.wrapper.Client> clients = client.api.getClients();
+        for (int i = 0; i < clients.size(); i++){
+            if (clients.get(i).getUniqueIdentifier().equals(uniqueIdentifier)){
+                return clients.get(i);
+            }
+        }
+        return null;
+    }
+
     public static ArrayList<String> getRegexMatches(String str, String pattern) {
         ArrayList<String> matches = new ArrayList<String>();
         Matcher m = Pattern.compile(pattern).matcher(str);
@@ -306,6 +333,4 @@ public class Helper {
                     "Wurf Widerstand: $EMOJISOPPONENT$ = $RESULTOPPONENT$\n" +
                     "Rechnung: $RESULTOPPONENT$+$SKILLOPPONENT$+$MODOPPONENT$ = $ABILITYOPPONENT$ ($ABILITYNAMEOPPONENT$)\n" +
                     "Ergebnis: $OUTCOME$ ($OUTCOMENAME$)";
-
-    public static List<String> possibleClientNicknames = new ArrayList<>();
 }
