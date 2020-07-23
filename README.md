@@ -30,6 +30,7 @@ You will notice that AllDice doesnt respond to most of the other commands, that 
 When you are done using AllDice, you can simply type "!leave" or just leave the TeamSpeak Server yourself.
 
 # Further technical details
+Special thanks go to TheHolyWaffle for his amazing TeamSpeak-3-Java-API which made this project possible in the first place, you can find his repo here: https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API
 TeamSpeak-AllDice is not a single TeamSpeak query client, its more like a bot network.
 After assigning AllDice to yourself - another bot instance will be created, joins the server and moves into the specified channel in the settings.json.
 This garanties that multiple P&P sessions can be held at a time, each with its own bot.
