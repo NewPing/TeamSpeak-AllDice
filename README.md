@@ -11,7 +11,6 @@ AllDice supports many different commands for different settings.
 | DSA | Supported |
 | Cthuhlu | Supported |
 | Fate | Supported |
-| Fu | Future release |
 
 And many other custom commands.
 
