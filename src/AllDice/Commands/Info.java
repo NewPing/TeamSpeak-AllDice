@@ -17,6 +17,7 @@ public class Info extends Command {
     public void execute(TextMessageEvent textEvent, Client client) {
         String reply = "";
         reply += "Alldice - Infopage\n";
+        reply += "Author: ~new (Jan Roth)";
         reply += "Current AllDice Version: " + client.controller.Version + "\n";
         reply += "AllDice Repository: https://github.com/NewPing/TeamSpeak-AllDice\n";
         reply += "AllDice Versions: https://github.com/NewPing/TeamSpeak-AllDice/releases\n";

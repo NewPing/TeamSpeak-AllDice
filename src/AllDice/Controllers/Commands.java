@@ -164,6 +164,15 @@ public class Commands {
                     false,
                     false
             ));
+            add(new CommandDef(
+                    "update",
+                    "!update",
+                    "Checks and performs a update of AllDice (if a newer version exists)",
+                    "!update",
+                    new Update(),
+                    true,
+                    true
+            ));
         }
     };
 

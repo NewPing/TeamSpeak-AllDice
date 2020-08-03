@@ -13,7 +13,7 @@ public class Controller {
     public static Settings settings;
     public static final String Version = "1.2";
 
-    public Controller() {
+    public Controller(){
         int errors = 0;
         errors += loadSettings();
         LogManager.settings = settings;
@@ -75,8 +75,9 @@ public class Controller {
                 FileIO.serializeToFile("nicknames.json", Helper.possibleClientNicknames);
 
                 LogManager.log("Couldnt find file '" + FileIO.getFilePath("nicknames.json") + "' or all needed parameters" +
-                        "\n-> created it... please open the file and check the nicknames");
-                return 1;
+                        "\n-> created it... please open the file and check the nicknames if you want to set custom nicknames for different alldice instances" +
+                        "\n--> proceeding anyway...");
+                return 0;
             }
         } catch (Exception ex){
             LogManager.log("Exception in: loadClientNicknames ... \n" + ex);

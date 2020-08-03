@@ -3,7 +3,7 @@ package AllDice.Helper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileWriter;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -180,7 +180,7 @@ public class FileIO {
                 lines = (ArrayList<String>) Files.readAllLines(path);
             }
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.readFileAsList: " + ex);
+            LogManager.log("Error in FileIO.readAllLines: " + ex);
         }
 
         return lines;
@@ -201,6 +201,36 @@ public class FileIO {
             }
         } catch (Exception ex) {
             LogManager.log("Error in FileIO.deleteFile: " + ex);
+        }
+    }
+
+    public static void runJavaProcess(String filename) throws Exception {
+        String path = null;
+
+        try {
+            ProcessBuilder proc = new ProcessBuilder("java -jar " + filename);
+
+            Process process = proc.start();
+
+            StringBuilder output = new StringBuilder();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+            int exitVal = process.waitFor();
+            if (exitVal == 0) {
+                System.out.println("Success!");
+                System.out.println(output);
+            } else {
+                //failure
+            }
+
+        } catch (Exception ex){
+            throw ex;
         }
     }
 

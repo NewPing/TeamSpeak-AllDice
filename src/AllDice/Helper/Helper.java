@@ -236,12 +236,15 @@ public class Helper {
     }
 
     public static boolean isUserAllDiceAdmin(TextMessageEvent textEvent, Client _client) {
-        com.github.theholywaffle.teamspeak3.api.wrapper.Client client = getClientByUniqueId(textEvent.getInvokerUniqueId(), _client);
-        List<ServerGroup> groups = _client.api.getServerGroupsByClientId(client.getDatabaseId());
-        for (int i = 0; i < groups.size(); i++){
-            if (groups.get(i).getName().toLowerCase().equals(_client.controller.settings.adminGroupName.toLowerCase())){
-                return true;
+        if (Helper.isNullOrWhitespace(_client.controller.settings.adminGroupName) == false){
+            com.github.theholywaffle.teamspeak3.api.wrapper.Client client = getClientByUniqueId(textEvent.getInvokerUniqueId(), _client);
+            List<ServerGroup> groups = _client.api.getServerGroupsByClientId(client.getDatabaseId());
+            for (int i = 0; i < groups.size(); i++){
+                if (groups.get(i).getName().toLowerCase().equals(_client.controller.settings.adminGroupName.toLowerCase())){
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }
