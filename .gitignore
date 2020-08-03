@@ -100,3 +100,5 @@ userconfigs.json
 
 logs/
 
+start.cmd
+start.sh
