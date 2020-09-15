@@ -12,6 +12,7 @@ public class Controller {
     public static ArrayList<Client> clients = new ArrayList<>();
     public static Settings settings;
     public static final String Version = "1.2";
+    private static boolean clientsCrashed = false;
 
     public Controller(){
         int errors = 0;
@@ -114,7 +115,8 @@ public class Controller {
 
     public void invokeCreateNewClientInstance() {
         try{
-            if (settings.debug == 0){
+            if (settings.debug == 0 || clientsCrashed){
+                clientsCrashed = false;
                 clients.add(new Client(this, settings.ip, settings.username, settings.password));
             }
         } catch (Exception ex) {
@@ -141,9 +143,23 @@ public class Controller {
         @Override
         public void run() {
             if (controller.clients.size() == 0) {
-                LogManager.log("Running keep alive procedure...");
+                LogManager.log("Running keep alive procedure... (clients.size is 0)");
                 if (settings.debug == 0){
                     new Thread(() -> controller.invokeCreateNewClientInstance()).start();
+                }
+            } else {
+                //check if one or more clients lost the connection to the server / crashed
+                for(int i = 0; i < controller.clients.size(); i++){
+                    if (!controller.clients.get(i).query.isConnected()){
+                        LogManager.log("Client: " + controller.clients.get(i).clientID + " connected? " + controller.clients.get(i).query.isConnected());
+                        controller.clientsCrashed = true;
+                    }
+                }
+                if (clientsCrashed){
+                    //shit went south - now we need to clean that mess up...
+                    LogManager.log("Running keep alive crash procedure (cleanup clients & start new client instance | clientsCrashed is true)...");
+                    controller.clients = new ArrayList<>();
+                    controller.invokeCreateNewClientInstance();
                 }
             }
         }

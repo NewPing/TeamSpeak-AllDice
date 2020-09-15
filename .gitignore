@@ -95,6 +95,7 @@ hs_err_pid*
 
 nicknames.json
 settings.json
+settings.json.backup
 usercolors.json
 userconfigs.json
 
