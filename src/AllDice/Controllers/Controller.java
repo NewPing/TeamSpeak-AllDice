@@ -143,9 +143,11 @@ public class Controller {
         @Override
         public void run() {
             if (controller.clients.size() == 0) {
-                LogManager.log("Running keep alive procedure... (clients.size is 0)");
                 if (settings.debug == 0){
+                    LogManager.log("Running keep alive procedure... (clients.size is 0)");
                     new Thread(() -> controller.invokeCreateNewClientInstance()).start();
+                } else {
+                    LogManager.log("Would like to run keep alive procedure... (clients.size is 0) but debug is set to 0");
                 }
             } else {
                 //check if one or more clients lost the connection to the server / crashed

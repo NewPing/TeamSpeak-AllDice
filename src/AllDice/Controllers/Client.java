@@ -19,6 +19,7 @@ public class Client {
     public String followClientUniqueID = "-1";
     public TS3Api api = null;
     public TS3Query query = null;
+    public Commands commands = null;
 
     /**
      * Constructor
@@ -32,16 +33,12 @@ public class Client {
             controller = _controller;
             TS3Config config = new TS3Config();
 
-            try{
-                config.setHost(ip);
-                query = new TS3Query(config);
-                query.connect();
-                api = query.getApi();
-                api.login(username,password);
-                api.selectVirtualServerById(controller.settings.virtualServerID);
-            } catch (Exception ex) {
-                LogManager.log("Exception in client constructor... are you sure the login information are set correctly?" + ex);
-            }
+            config.setHost(ip);
+            query = new TS3Query(config);
+            query.connect();
+            api = query.getApi();
+            api.login(username,password);
+            api.selectVirtualServerById(controller.settings.virtualServerID);
 
             clientID = api.whoAmI().getId();
             currentChannelID = api.whoAmI().getChannelId();
@@ -56,10 +53,11 @@ public class Client {
                 LogManager.log("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
             }
 
+            commands = new Commands(this);
             initializeEvents(api, query, this);
             LogManager.log("Client " + clientID + " started successfully!");
         } catch ( Exception ex){
-            LogManager.log("Exception in client constructor: " + ex);
+            LogManager.log("Exception in client constructor - Please check that the server is running and the login credentials are correct: \n" + ex);
             controller.clientLeave(clientID);
             query.exit();
         }
@@ -107,7 +105,7 @@ public class Client {
             public void onTextMessage(TextMessageEvent e) {
                 if ((e.getTargetMode() == TextMessageTargetMode.CHANNEL || e.getTargetMode() == TextMessageTargetMode.CLIENT) && e.getInvokerId() != clientID) {
                     if (e.getMessage().charAt(0) == '!') {
-                        Commands.handleCommandInput(e, clientInstance);
+                        commands.handleCommandInput(e, clientInstance);
                     }
                 }
             }

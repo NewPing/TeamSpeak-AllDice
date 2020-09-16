@@ -19,6 +19,8 @@ public class Leave extends Command {
             Helper.sendMessage(textEvent, client, "leaving...", false);
             client.controller.clientLeave(client.clientID);
             client.query.exit();
+        } else {
+            Helper.sendMessage(textEvent, client, "Cant force me to leave, when you are not the one i m following...", false);
         }
     }
 }

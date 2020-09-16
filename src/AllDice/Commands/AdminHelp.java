@@ -25,7 +25,7 @@ public class AdminHelp extends Command {
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
 
             if (values.size() == 0){
-                for (CommandDef command : Commands.commands) {
+                for (CommandDef command : client.commands.commands) {
                     if (command.requiresAllDiceAdminGroup){
                         reply += command.index + " -\t" + command.name + "\t" + command.syntax + "\n";
                     }
@@ -35,7 +35,7 @@ public class AdminHelp extends Command {
                 boolean commandFound = false;
                 int inputNumber = Integer.parseInt(values.get(0));
 
-                for (CommandDef command : Commands.commands){
+                for (CommandDef command : client.commands.commands){
                     if (command.requiresAllDiceAdminGroup){
                         if (inputNumber == command.index){
                             reply += "Command: " + command.name + "\n";
