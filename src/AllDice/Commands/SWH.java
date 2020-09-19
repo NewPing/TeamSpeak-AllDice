@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
@@ -11,22 +13,22 @@ public class SWH extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String blancOutput = Helper.blanc_swh_Output;
+            String blancOutput = Outputs.blanc_swh_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] randomNumbers = new int[3];
             String reply = "";
 
-            randomNumbers[0] = Helper.getRandomNumber(6);
-            randomNumbers[1] = Helper.getRandomNumber(6);
-            randomNumbers[2] = Helper.getRandomNumber(6);
+            randomNumbers[0] = DiceHelper.getRandomNumber(6);
+            randomNumbers[1] = DiceHelper.getRandomNumber(6);
+            randomNumbers[2] = DiceHelper.getRandomNumber(6);
 
-            String[] zones = Helper.getSWHZoneOutput(randomNumbers[0] + randomNumbers[1], randomNumbers[2]);
+            String[] zones = DiceHelper.getSWHZoneOutput(randomNumbers[0] + randomNumbers[1], randomNumbers[2]);
             if (Helper.isNullOrWhitespace(zones[1]))
             {
                 blancOutput = blancOutput.replace("\nZusatzwurf W6: $RANDNUMBER2$ - $ZONE1$", "");

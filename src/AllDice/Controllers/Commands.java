@@ -170,6 +170,33 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        "Star Trek Probe",
+                        "!st(zahl),(zahl),(zahl)",
+                        "Star Trek Probewurf mit: Anzahl W20, Schwellwert, Schwierigkeit",
+                        "!st3,7,3",
+                        new ST(),
+                        false,
+                        false
+                ));
+                add(new CommandDef(
+                        "Star Trek Fokus",
+                        "!stf(zahl),(zahl),(zahl)",
+                        "Star Trek Fokus Probe mit: Anzahl W20, Schwellwert, Schwierigkeit",
+                        "!stf3,7,3",
+                        new STF(),
+                        false,
+                        false
+                ));
+                add(new CommandDef(
+                        "Star Trek Challenge",
+                        "!stc(zahl)",
+                        "Star Trek Challenge mit: Anzahl W6",
+                        "!stc5",
+                        new STC(),
+                        false,
+                        false
+                ));
+                add(new CommandDef(
                         "update",
                         "!update",
                         "Checks and performs a update of AllDice (if a newer version exists)",

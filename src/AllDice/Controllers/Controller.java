@@ -115,7 +115,7 @@ public class Controller {
 
     public void invokeCreateNewClientInstance() {
         try{
-            if (settings.debug == 0 || clientsCrashed){
+            if (settings.startInServerMode || clientsCrashed){
                 clientsCrashed = false;
                 clients.add(new Client(this, settings.ip, settings.username, settings.password));
             }
@@ -143,11 +143,11 @@ public class Controller {
         @Override
         public void run() {
             if (controller.clients.size() == 0) {
-                if (settings.debug == 0){
+                if (settings.startInServerMode){
                     LogManager.log("Running keep alive procedure... (clients.size is 0)");
                     new Thread(() -> controller.invokeCreateNewClientInstance()).start();
                 } else {
-                    LogManager.log("Would like to run keep alive procedure... (clients.size is 0) but debug is set to 0");
+                    LogManager.log("Would like to run keep alive procedure... (clients.size is 0) but startInServerMode is set to false");
                 }
             } else {
                 //check if one or more clients lost the connection to the server / crashed

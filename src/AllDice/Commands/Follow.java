@@ -1,6 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -13,7 +14,7 @@ public class Follow extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
@@ -32,7 +33,7 @@ public class Follow extends Command {
     }
 
     private String getGreetingText(){
-        return greetingTexts.get(Helper.getRandomNumber(0,greetingTexts.size()-1));
+        return greetingTexts.get(DiceHelper.getRandomNumber(0,greetingTexts.size()-1));
     }
 
     private ArrayList<String> getGreetingsList(){

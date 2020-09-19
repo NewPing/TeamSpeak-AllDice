@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
@@ -13,13 +15,13 @@ public class W extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String blancOutput = Helper.blanc_w_Output;
+            String blancOutput = Outputs.blanc_w_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             int[] randNumbers = null;
@@ -43,7 +45,7 @@ public class W extends Command {
                 else
                 {
                     //______________Logik w3______________________
-                    randNumbers[0] = Helper.getRandomNumber(inputNumbers[0]);
+                    randNumbers[0] = DiceHelper.getRandomNumber(inputNumbers[0]);
                     //Output zusammenbauen
                     blancOutput = blancOutput.replace("Rechnung: $RANDNUMBER$ = $SUM$\nSumme: $SUM$+$ADD$\n", "");
                     reply += blancOutput;
@@ -69,7 +71,7 @@ public class W extends Command {
                             inputNumbers[1] = -inputNumbers[1];  //letzte zahl umkehren
                             blancOutput = blancOutput.replace("+", "");
                         }
-                        randNumbers[0] = Helper.getRandomNumber(inputNumbers[0]);
+                        randNumbers[0] = DiceHelper.getRandomNumber(inputNumbers[0]);
                         //Output zusammenbauen
                         blancOutput = blancOutput.replace("Rechnung: $RANDNUMBER$ = $SUM$\n", "");
                         reply += blancOutput;
@@ -93,7 +95,7 @@ public class W extends Command {
                         //______________Logik 3w3______________________
                         for (int i = 0; i < inputNumbers[0]; i++) //random zahlen generieren
                         {
-                            randNumbers[i] = Helper.getRandomNumber(inputNumbers[1]);
+                            randNumbers[i] = DiceHelper.getRandomNumber(inputNumbers[1]);
                         }
                         //Output zusammenbauen
                         blancOutput = blancOutput.replace("Summe: $SUM$+$ADD$\n", "");
@@ -129,7 +131,7 @@ public class W extends Command {
                     //______________Logik 3w3+3______________________
                     for (int i = 0; i < inputNumbers[0]; i++) //random zahlen generieren
                     {
-                        randNumbers[i] = Helper.getRandomNumber(inputNumbers[1]);
+                        randNumbers[i] = DiceHelper.getRandomNumber(inputNumbers[1]);
                     }
                     //Output zusammenbauen
                     reply += blancOutput;

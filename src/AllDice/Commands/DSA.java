@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Helper.Tuple;
@@ -10,17 +12,17 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import java.util.ArrayList;
 
 public class DSA extends Command {
-    public static String matchPattern = "^!dsa(:? )?[0-9]+,[0-9]+,[0-9]+(:?(,)?)((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)(?: +)?$";
+    public static String matchPattern = "^!dsa[0-9]+,[0-9]+,[0-9]+(:?(,)?)((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)(?: +)?$";
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String blancOutput = Helper.blanc_dsa_Output;
+            String blancOutput = Outputs.blanc_dsa_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             Tuple<Integer, String> explodingDice0 = null;
@@ -54,9 +56,9 @@ public class DSA extends Command {
                 }
 
                 int[] randomNumbers = new int[3];
-                randomNumbers[0] = Helper.getRandomNumber(20);
-                randomNumbers[1] = Helper.getRandomNumber(20);
-                randomNumbers[2] = Helper.getRandomNumber(20);
+                randomNumbers[0] = DiceHelper.getRandomNumber(20);
+                randomNumbers[1] = DiceHelper.getRandomNumber(20);
+                randomNumbers[2] = DiceHelper.getRandomNumber(20);
 
                 Tuple<Integer, Integer> tmpTuple = new Tuple<>(ausgleichspunkte, erfolgspunkte);
                 tmpTuple = calcPoints(inputNumbers[0], modifikator, randomNumbers[0], tmpTuple.Item1, tmpTuple.Item2);

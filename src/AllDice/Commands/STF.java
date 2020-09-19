@@ -5,8 +5,8 @@ import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-public class PM extends Command {
-    public static String matchPattern = "^!pm(?: +)?$";
+public class STF extends Command {
+    public static String matchPattern = "^!stf[0-9]+,[0-9]+,[0-9]+(?: +)?$";
 
     @Override
     public boolean check(String input) {
@@ -15,6 +15,6 @@ public class PM extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
-        Helper.sendMessage(textEvent, client, "Opened private chat...", true);
+        ST.starTrek(textEvent, client, true);
     }
 }

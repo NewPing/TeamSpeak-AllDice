@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Helper.Tuple;
@@ -13,13 +15,13 @@ public class SWD extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String blancOutput = Helper.blanc_swd_Output;
+            String blancOutput = Outputs.blanc_swd_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             Tuple<Integer, String> explodingDice0 = null;
@@ -39,8 +41,8 @@ public class SWD extends Command {
                 Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 1 sein!", false);
             }
             else {
-                explodingDice0 = Helper.getExplodingDice(inputNumbers[0]);
-                explodingDice1 = Helper.getExplodingDice(inputNumbers[1]);
+                explodingDice0 = DiceHelper.getExplodingDice(inputNumbers[0]);
+                explodingDice1 = DiceHelper.getExplodingDice(inputNumbers[1]);
                 //Output zusammenbauen
                 if (Helper.getRegexMatches(textEvent.getMessage(), ",").size() == 2 || textEvent.getMessage().contains("+") || textEvent.getMessage().contains("-")) {
                     if (textEvent.getMessage().toLowerCase().contains("-")) //nachricht enthält minus

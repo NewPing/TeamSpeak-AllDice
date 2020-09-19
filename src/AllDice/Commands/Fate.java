@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
@@ -14,7 +16,7 @@ public class Fate extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
@@ -52,7 +54,7 @@ public class Fate extends Command {
         try{
             LogManager.log("Test");
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
-            String blancOutput = Helper.blanc_fate_passive_Output;
+            String blancOutput = Outputs.blanc_fate_passive_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             String reply = "";
             //set default values (if no input is given, just !f)
@@ -115,9 +117,9 @@ public class Fate extends Command {
             reply = reply.replace("$ABILITY$", String.valueOf(ability));
             reply = reply.replace("$OUTCOME$", String.valueOf(outcome));
             reply = reply.replace("$GOAL$", String.valueOf(goal));
-            reply = reply.replace("$ABILITYNAME$", Helper.getFateAbilityName(ability, abilityHighName, abilityLowName));
-            reply = reply.replace("$OUTCOMENAME$", Helper.getFateOutcomeName(outcome, outcomeHighName));
-            reply = reply.replace("$EMOJIS$", Helper.getFateEmojis(rolls));
+            reply = reply.replace("$ABILITYNAME$", DiceHelper.getFateAbilityName(ability, abilityHighName, abilityLowName));
+            reply = reply.replace("$OUTCOMENAME$", DiceHelper.getFateOutcomeName(outcome, outcomeHighName));
+            reply = reply.replace("$EMOJIS$", DiceHelper.getFateEmojis(rolls));
 
             Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
@@ -132,7 +134,7 @@ public class Fate extends Command {
             if (textEvent.getMessage().contains(",")){
                 valuesRight = Helper.getRegexMatches(textEvent.getMessage().toLowerCase().split(",")[1], "\\d+"); //after , (opponent)
             }
-            String blancOutput = Helper.blanc_fate_active_Output;
+            String blancOutput = Outputs.blanc_fate_active_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             String reply = "";
             //set default values (if no input is given, just !f)
@@ -185,12 +187,12 @@ public class Fate extends Command {
             reply = reply.replace("$RESULTOPPONENT$", String.valueOf(rollsop[4]));
             reply = reply.replace("$ABILITY$", String.valueOf(ability));
             reply = reply.replace("$ABILITYOPPONENT$", String.valueOf(abilityop));
-            reply = reply.replace("$ABILITYNAME$", Helper.getFateAbilityName(ability, abilityHighName, abilityLowName));
-            reply = reply.replace("$ABILITYNAMEOPPONENT$", Helper.getFateAbilityName(abilityop, abilityHighName, abilityLowName));
-            reply = reply.replace("$EMOJIS$", Helper.getFateEmojis(rolls));
-            reply = reply.replace("$EMOJISOPPONENT$", Helper.getFateEmojis(rollsop));
+            reply = reply.replace("$ABILITYNAME$", DiceHelper.getFateAbilityName(ability, abilityHighName, abilityLowName));
+            reply = reply.replace("$ABILITYNAMEOPPONENT$", DiceHelper.getFateAbilityName(abilityop, abilityHighName, abilityLowName));
+            reply = reply.replace("$EMOJIS$", DiceHelper.getFateEmojis(rolls));
+            reply = reply.replace("$EMOJISOPPONENT$", DiceHelper.getFateEmojis(rollsop));
             reply = reply.replace("$OUTCOME$", String.valueOf(outcome));
-            reply = reply.replace("$OUTCOMENAME$", Helper.getFateOutcomeName(outcome, outcomeHighName));
+            reply = reply.replace("$OUTCOMENAME$", DiceHelper.getFateOutcomeName(outcome, outcomeHighName));
             reply = reply.replace("+-", "-");
 
             Helper.sendMessage(textEvent, client, reply, false);
@@ -202,7 +204,7 @@ public class Fate extends Command {
     private int[] rollFates(){
         int[] rolls = new int[5];
         for(int i = 0; i < rolls.length -1; i++){
-            rolls[i] = Helper.getRandomNumber(-1, 1);
+            rolls[i] = DiceHelper.getRandomNumber(-1, 1);
             rolls[4] += rolls[i];
         }
 

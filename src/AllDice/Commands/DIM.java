@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
@@ -12,16 +14,16 @@ public class DIM extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String blancOutput = Helper.blanc_dim_Output;
+            String blancOutput = Outputs.blanc_dim_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int inputNumber = 0;
-            int randomNumber = Helper.getRandomNumber(30);
+            int randomNumber = DiceHelper.getRandomNumber(30);
             int sum = 0;
             String reply = "";
 

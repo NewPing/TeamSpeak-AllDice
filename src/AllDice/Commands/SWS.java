@@ -1,6 +1,8 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
+import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Helper.LogManager;
 import AllDice.Helper.Tuple;
@@ -13,13 +15,13 @@ public class SWS extends Command {
 
     @Override
     public boolean check(String input) {
-        return input.matches(matchPattern);
+        return input.toLowerCase().matches(matchPattern.toLowerCase());
     }
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try{
-            String blancOutput = Helper.blanc_sws_Output;
+            String blancOutput = Outputs.blanc_sws_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             Tuple<Integer, String> explodingDice0 = null;
@@ -39,7 +41,7 @@ public class SWS extends Command {
             }
             else
             {
-                explodingDice0 = Helper.getExplodingDice(inputNumbers[0]);
+                explodingDice0 = DiceHelper.getExplodingDice(inputNumbers[0]);
                 //Output zusammenbauen
                 if (textEvent.getMessage().toLowerCase().contains("-") || textEvent.getMessage().toLowerCase().contains("+"))
                 {
@@ -72,7 +74,7 @@ public class SWS extends Command {
                 }
                 else
                 {
-                    reply = reply.replace("$OUTPUT0$", Helper.getSWResultOutput(explodingDice0.Item1 + inputNumbers[1]));
+                    reply = reply.replace("$OUTPUT0$", DiceHelper.getSWResultOutput(explodingDice0.Item1 + inputNumbers[1]));
                 }
 
                 Helper.sendMessage(textEvent, client, reply, false);
