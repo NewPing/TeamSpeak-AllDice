@@ -99,7 +99,10 @@ settings.json.backup
 usercolors.json
 userconfigs.json
 
-logs/
+logs
 
 start.cmd
 start.sh
+
+out
+.idea
