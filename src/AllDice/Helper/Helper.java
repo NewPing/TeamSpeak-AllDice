@@ -21,7 +21,7 @@ public class Helper {
     public static List<String> possibleClientNicknames = new ArrayList<>();
 
     public static void sendMessage(TextMessageEvent textEvent, Client client, String message, Boolean forcePrivate) {
-        Logger.log("Output: " + message);
+        Logger.log.fine("Output: " + message);
         if (forcePrivate) {
             client.api.sendTextMessage(TextMessageTargetMode.CLIENT, textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
         } else {

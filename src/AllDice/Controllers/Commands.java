@@ -1,4 +1,4 @@
-package AllDice.Helper;
+package AllDice.Controllers;
 import AllDice.Commands.*;
 import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
@@ -34,15 +34,6 @@ public class Commands {
                         new Help(),
                         true,
                         false
-                ));
-                add(new CommandDef(
-                        "adminhelp",
-                        "!adminhelp (index)",
-                        "prints the admin help page",
-                        "!adminhelp",
-                        new AdminHelp(),
-                        true,
-                        true
                 ));
                 add(new CommandDef(
                         "color",
@@ -198,11 +189,29 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        "adminhelp",
+                        "!adminhelp (index)",
+                        "prints the admin help page",
+                        "!adminhelp",
+                        new AdminHelp(),
+                        true,
+                        true
+                ));
+                add(new CommandDef(
                         "update",
                         "!update",
                         "Checks and performs a update of AllDice (if a newer version exists)",
                         "!update",
                         new Update(),
+                        true,
+                        true
+                ));
+                add(new CommandDef(
+                        "uploadLogs",
+                        "!uploadLogs",
+                        "uploads all log files to standard channel (defined in settings)",
+                        "!uploadLogs",
+                        new UploadLog(),
                         true,
                         true
                 ));
@@ -214,23 +223,15 @@ public class Commands {
         for( int i = 0; i < commands.size(); i++){
             if (commands.get(i).command.check(messageEvent.getMessage().toLowerCase())){
                 if (client.followClientID != -1 || commands.get(i).ignoreFollowFlag) {
+                    Logger.log.fine("handleCommand :: User: " + messageEvent.getInvokerName() + "Input: " + messageEvent.getMessage());
                     if (commands.get(i).requiresAllDiceAdminGroup){
                         if (Helper.isUserAllDiceAdmin(messageEvent, client)){
-                            Logger.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
-                            Logger.log("User: " + messageEvent.getInvokerName());
-                            Logger.log("Input: " + messageEvent.getMessage());
                             Helper.sendMessage(messageEvent, client, "Command requires elevated permissions - Executing ...", false);
                             commands.get(i).command.execute(messageEvent, client);
                         } else {
-                            Logger.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
-                            Logger.log("User: " + messageEvent.getInvokerName());
-                            Logger.log("Input: " + messageEvent.getMessage());
                             Helper.sendMessage(messageEvent, client, "Command requires elevated permissions - Execution denied ...", false);
                         }
                     } else {
-                        Logger.log("________ " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " ________");
-                        Logger.log("User: " + messageEvent.getInvokerName());
-                        Logger.log("Input: " + messageEvent.getMessage());
                         commands.get(i).command.execute(messageEvent, client);
                     }
                 }

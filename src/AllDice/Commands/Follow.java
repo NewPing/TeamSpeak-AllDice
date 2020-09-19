@@ -50,7 +50,7 @@ public class Follow extends Command {
                 add("Hehe, you know whats funny? you arent the first one to pick me up - and i love it ;)");
                 add("Lets go!");
                 add("Ooooops, please try again\n\n\nJust kidding :D");
-                add("Hey! Ready to demolish the other players?! >:D\nNo? okay... fine...");
+                add("Hey! Ready to demolish the other players?! ^^\nNo? okay... fine...");
                 add("Oh I beg you, can I follow?\nOh I ask you, why not always?\nBe the ocean, where I unravel\nBe my only, be the water where I'm wading");
                 add("I, I follow, I follow you\\nDeep sea baby, I follow you\\nI, I follow, I follow you\\nDark doom honey, I follow you");
                 add("Can you feel this energy?\nThis is the start of something great");

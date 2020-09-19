@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileIO {
 
@@ -20,7 +21,7 @@ public class FileIO {
 
             writeAllText(filename, json);
         } catch (Exception ex) {
-            Logger.log(ex.toString());
+            Logger.log.severe(ex.toString());
         }
     }
 
@@ -31,7 +32,7 @@ public class FileIO {
             Gson gson = new Gson();
             return gson.fromJson(json, classOfT);
         } catch (Exception ex) {
-            Logger.log(ex.toString());
+            Logger.log.severe(ex.toString());
         }
         return null;
     }
@@ -48,12 +49,12 @@ public class FileIO {
 
             return Files.exists(path);
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.exists: " + ex);
+            Logger.log.severe("Error in FileIO.exists: " + ex);
             throw ex;
         }
     }
 
-    public static void createDirectory(String dirPath){
+    public static void createDirectory(String dirPath) throws IOException {
         Path path = null;
 
         try {
@@ -65,11 +66,12 @@ public class FileIO {
 
             Files.createDirectory(path);
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.createDirectory: " + ex);
+            Logger.log.severe("Error in FileIO.createDirectory: " + ex);
+            throw ex;
         }
     }
 
-    public static void fileMove(String filename, String newFilename){
+    public static void fileMove(String filename, String newFilename) throws IOException {
         Path path = null;
         Path path2 = null;
 
@@ -88,7 +90,8 @@ public class FileIO {
 
             Files.move(path, path2);
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.fileMove: " + ex);
+            Logger.log.severe("Error in FileIO.fileMove: " + ex);
+            throw ex;
         }
     }
 
@@ -104,7 +107,7 @@ public class FileIO {
 
             Files.write(path, lines);
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.writeAllLines: " + ex);
+            Logger.log.severe("Error in FileIO.writeAllLines: " + ex);
         }
     }
 
@@ -122,7 +125,7 @@ public class FileIO {
             writer.write(text);
             writer.close();
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.writeAllText: " + ex);
+            Logger.log.severe("Error in FileIO.writeAllText: " + ex);
         }
     }
 
@@ -140,7 +143,7 @@ public class FileIO {
             writer.write(text + "\n");
             writer.close();
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.appendAllText: " + ex);
+            Logger.log.severe("Error in FileIO.appendAllText: " + ex);
         }
     }
 
@@ -159,7 +162,7 @@ public class FileIO {
                 text = String.join(" ", Files.readAllLines(path));
             }
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.readAllText: " + ex);
+            Logger.log.severe("Error in FileIO.readAllText: " + ex);
         }
 
         return text;
@@ -181,7 +184,7 @@ public class FileIO {
                 lines = (ArrayList<String>) Files.readAllLines(path);
             }
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.readAllLines: " + ex);
+            Logger.log.severe("Error in FileIO.readAllLines: " + ex);
         }
 
         return lines;
@@ -201,7 +204,7 @@ public class FileIO {
                 Files.delete(path);
             }
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.deleteFile: " + ex);
+            Logger.log.severe("Error in FileIO.deleteFile: " + ex);
         }
     }
 
@@ -235,7 +238,19 @@ public class FileIO {
         }
     }
 
-    public static Path getFilePath(String filename){
+    public static File[] getFiles(String dir, String fileEnding){
+        Path directoryPath = getPath(dir);
+        List<Path> paths = new ArrayList<>();
+
+        try {
+            return directoryPath.toFile().listFiles((dir1, name) -> name.toLowerCase().endsWith(fileEnding));
+        } catch (Exception ex) {
+            Logger.log.severe("Error in FileIO.getFilePath: " + ex);
+            throw ex;
+        }
+    }
+
+    public static Path getPath(String filename){
         Path path = null;
         try {
             if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
@@ -244,7 +259,7 @@ public class FileIO {
                 path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
             }
         } catch (Exception ex) {
-            Logger.log("Error in FileIO.getFilePath: " + ex);
+            Logger.log.severe("Error in FileIO.getPath: " + ex);
         }
 
         return path;

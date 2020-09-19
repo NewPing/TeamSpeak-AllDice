@@ -31,7 +31,7 @@ public class Color extends Command {
         try{
             FileIO.serializeToFile("usercolors.json", Helper.userColor);
         } catch (Exception ex){
-            Logger.log("Exception in: execute (color) while writing json ... \n" + ex);
+            Logger.log.severe("Error in: execute (color) while writing json ... \n" + ex);
         }
     }
 }

@@ -46,13 +46,12 @@ public class Fate extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Logger.log("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log.severe("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 
     private void executePassive(TextMessageEvent textEvent, Client client, String outcomeHighName, String abilityHighName, String abilityLowName){
         try{
-            Logger.log("Test");
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
             String blancOutput = Outputs.blanc_fate_passive_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());

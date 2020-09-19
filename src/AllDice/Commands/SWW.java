@@ -92,7 +92,7 @@ public class SWW extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Logger.log("Error in SWW with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log.severe("Error in SWW with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

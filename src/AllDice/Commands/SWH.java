@@ -47,7 +47,7 @@ public class SWH extends Command {
             Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Logger.log("Error in SWH with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log.severe("Error in SWH with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

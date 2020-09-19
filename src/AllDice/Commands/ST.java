@@ -102,7 +102,7 @@ public class ST extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            Logger.log("Error in starTrek with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log.severe("Error in starTrek with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }
