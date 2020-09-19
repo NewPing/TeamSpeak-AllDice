@@ -1,6 +1,6 @@
 package AllDice.Controllers;
 
-import AllDice.Classes.Commands;
+import AllDice.Helper.Commands;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
 import com.github.theholywaffle.teamspeak3.TS3Api;

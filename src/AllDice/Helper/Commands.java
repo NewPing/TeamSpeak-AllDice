@@ -1,4 +1,4 @@
-package AllDice.Classes;
+package AllDice.Helper;
 import AllDice.Commands.*;
 import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;

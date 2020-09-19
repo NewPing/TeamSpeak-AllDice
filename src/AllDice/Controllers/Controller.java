@@ -13,7 +13,7 @@ import java.util.TimerTask;
 public class Controller {
     public static ArrayList<Client> clients = new ArrayList<>();
     public static Settings settings;
-    public static final String Version = "1.2";
+    public static final String Version = "1.3";
     private static boolean clientsCrashed = false;
 
     public Controller(){
