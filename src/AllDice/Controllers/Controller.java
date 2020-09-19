@@ -1,5 +1,7 @@
 package AllDice.Controllers;
 
+import AllDice.Classes.Implementations.JDictionary;
+import AllDice.Classes.Logger;
 import AllDice.Helper.*;
 import AllDice.Models.Settings;
 import AllDice.Models.UserConfigs;
@@ -17,8 +19,8 @@ public class Controller {
     public Controller(){
         int errors = 0;
         errors += loadSettings();
-        LogManager.settings = settings;
-        LogManager.openNewLogfile();
+        Logger.settings = settings;
+        Logger.openNewLogfile();
 
         errors += loadClientNicknames();
         errors += loadUserColors();
@@ -27,10 +29,10 @@ public class Controller {
         if (errors == 0){
             if (!Helper.isNullOrWhitespace(settings.ip) && !Helper.isNullOrWhitespace(settings.username) && !Helper.isNullOrWhitespace(settings.password)){
                 try {
-                    LogManager.log("Starting ...");
+                    Logger.log("Starting ...");
                     clients.add(new Client(this, settings.ip, settings.username, settings.password));
                 } catch (Exception ex) {
-                    LogManager.log("Exception in Controller... " + ex);
+                    Logger.log("Exception in Controller... " + ex);
                     clients.clear();
                 }
 
@@ -38,27 +40,27 @@ public class Controller {
                 TimerTask checkStayAlive = new CheckStayAlive(this);
                 timerStayAlive.scheduleAtFixedRate(checkStayAlive, 1000, 30000);
             } else {
-                LogManager.log("Server IP, Query Username or Password not set...");
+                Logger.log("Server IP, Query Username or Password not set...");
             }
         } else {
-            LogManager.log("Errors detected while startup...\nstopped start precedure...");
+            Logger.log("Errors detected while startup...\nstopped start precedure...");
             System.exit(-1);
         }
     }
 
     private int loadSettings(){
         try{
-            LogManager.log("loading settings...");
+            Logger.log("loading settings...");
             settings = FileIO.deserializeFromFile("settings.json", Settings.class);
             if (settings == null) {
                 FileIO.serializeToFile("settings.json", new Settings());
 
-                LogManager.log("Couldnt find file '" + FileIO.getFilePath("settings.json") + "' or all needed parameters" +
+                Logger.log("Couldnt find file '" + FileIO.getFilePath("settings.json") + "' or all needed parameters" +
                         "\n-> created it... please open the file and check the settings");
                 return 1;
             }
         } catch (Exception ex){
-            LogManager.log("Exception in: loadSettings ... \n" + ex);
+            Logger.log("Exception in: loadSettings ... \n" + ex);
             return 1;
         }
         return 0;
@@ -66,7 +68,7 @@ public class Controller {
 
     private int loadClientNicknames(){
         try{
-            LogManager.log("loading client nicknames...");
+            Logger.log("loading client nicknames...");
             Helper.possibleClientNicknames = (ArrayList<String>)(FileIO.deserializeFromFile("nicknames.json", ArrayList.class));
             if (Helper.possibleClientNicknames == null) {
                 Helper.possibleClientNicknames = new ArrayList<>();
@@ -75,13 +77,13 @@ public class Controller {
                 Helper.possibleClientNicknames.add("AllDice3");
                 FileIO.serializeToFile("nicknames.json", Helper.possibleClientNicknames);
 
-                LogManager.log("Couldnt find file '" + FileIO.getFilePath("nicknames.json") + "' or all needed parameters" +
+                Logger.log("Couldnt find file '" + FileIO.getFilePath("nicknames.json") + "' or all needed parameters" +
                         "\n-> created it... please open the file and check the nicknames if you want to set custom nicknames for different alldice instances" +
                         "\n--> proceeding anyway...");
                 return 0;
             }
         } catch (Exception ex){
-            LogManager.log("Exception in: loadClientNicknames ... \n" + ex);
+            Logger.log("Exception in: loadClientNicknames ... \n" + ex);
             return 1;
         }
         return 0;
@@ -89,26 +91,26 @@ public class Controller {
 
     private int loadUserColors(){
         try{
-            LogManager.log("loading user colors...");
+            Logger.log("loading user colors...");
             Helper.userColor = FileIO.deserializeFromFile("usercolors.json", JDictionary.class);
             if (Helper.userColor == null) {
                 Helper.userColor = new JDictionary<>();
             }
         } catch (Exception ex){
-            LogManager.log("Exception in: loadUserColor: couldnt load usercolors.json... continueing anyway...");
+            Logger.log("Exception in: loadUserColor: couldnt load usercolors.json... continueing anyway...");
         }
         return 0;
     }
 
     private int loadUserConfigs(){
         try{
-            LogManager.log("loading user configs...");
+            Logger.log("loading user configs...");
             Helper.userConfigs = FileIO.deserializeFromFile("userconfigs.json", UserConfigs.class);
             if (Helper.userConfigs == null) {
                 Helper.userConfigs = new UserConfigs();
             }
         } catch (Exception ex){
-            LogManager.log("Exception in: loadUserFateConfig: couldnt load userconfigs.json... continueing anyway...");
+            Logger.log("Exception in: loadUserFateConfig: couldnt load userconfigs.json... continueing anyway...");
         }
         return 0;
     }
@@ -120,7 +122,7 @@ public class Controller {
                 clients.add(new Client(this, settings.ip, settings.username, settings.password));
             }
         } catch (Exception ex) {
-            LogManager.log("Exception in invokeCreateNewClientInstance... " + ex);
+            Logger.log("Exception in invokeCreateNewClientInstance... " + ex);
         }
     }
 
@@ -144,22 +146,22 @@ public class Controller {
         public void run() {
             if (controller.clients.size() == 0) {
                 if (settings.startInServerMode){
-                    LogManager.log("Running keep alive procedure... (clients.size is 0)");
+                    Logger.log("Running keep alive procedure... (clients.size is 0)");
                     new Thread(() -> controller.invokeCreateNewClientInstance()).start();
                 } else {
-                    LogManager.log("Would like to run keep alive procedure... (clients.size is 0) but startInServerMode is set to false");
+                    Logger.log("Would like to run keep alive procedure... (clients.size is 0) but startInServerMode is set to false");
                 }
             } else {
                 //check if one or more clients lost the connection to the server / crashed
                 for(int i = 0; i < controller.clients.size(); i++){
                     if (!controller.clients.get(i).query.isConnected()){
-                        LogManager.log("Client: " + controller.clients.get(i).clientID + " connected? " + controller.clients.get(i).query.isConnected());
+                        Logger.log("Client: " + controller.clients.get(i).clientID + " connected? " + controller.clients.get(i).query.isConnected());
                         controller.clientsCrashed = true;
                     }
                 }
                 if (clientsCrashed){
                     //shit went south - now we need to clean that mess up...
-                    LogManager.log("Running keep alive crash procedure (cleanup clients & start new client instance | clientsCrashed is true)...");
+                    Logger.log("Running keep alive crash procedure (cleanup clients & start new client instance | clientsCrashed is true)...");
                     controller.clients = new ArrayList<>();
                     controller.invokeCreateNewClientInstance();
                 }

@@ -4,8 +4,7 @@ import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
-import AllDice.Helper.Tuple;
+import AllDice.Classes.Logger;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -103,7 +102,7 @@ public class ST extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            LogManager.log("Error in starTrek with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log("Error in starTrek with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }

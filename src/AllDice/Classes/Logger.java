@@ -1,12 +1,11 @@
-package AllDice.Helper;
+package AllDice.Classes;
 
+import AllDice.Helper.FileIO;
 import AllDice.Models.Settings;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-public class LogManager {
+public class Logger {
     public static Settings settings = null;
     public static String logFolder = "logs\\";
     public static String standardLogfile = "alldice";
@@ -28,7 +27,7 @@ public class LogManager {
             if (FileIO.exists(logFolder + standardLogfile + logfileExtension)){
                 FileIO.fileMove(logFolder + standardLogfile + logfileExtension, logFolder + standardLogfile + "_" + getTimestemp() + logfileExtension);
             }
-            LogManager.log("opened new logfile...");
+            Logger.log("opened new logfile...");
         }
     }
 

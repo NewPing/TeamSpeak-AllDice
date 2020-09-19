@@ -3,7 +3,7 @@ package AllDice.Commands;
 import AllDice.Controllers.Client;
 import AllDice.Helper.FileIO;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
+import AllDice.Classes.Logger;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -31,7 +31,7 @@ public class Color extends Command {
         try{
             FileIO.serializeToFile("usercolors.json", Helper.userColor);
         } catch (Exception ex){
-            LogManager.log("Exception in: execute (color) while writing json ... \n" + ex);
+            Logger.log("Exception in: execute (color) while writing json ... \n" + ex);
         }
     }
 }

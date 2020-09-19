@@ -1,5 +1,6 @@
 package AllDice.Helper;
 
+import AllDice.Classes.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,7 +20,7 @@ public class FileIO {
 
             writeAllText(filename, json);
         } catch (Exception ex) {
-            LogManager.log(ex.toString());
+            Logger.log(ex.toString());
         }
     }
 
@@ -30,7 +31,7 @@ public class FileIO {
             Gson gson = new Gson();
             return gson.fromJson(json, classOfT);
         } catch (Exception ex) {
-            LogManager.log(ex.toString());
+            Logger.log(ex.toString());
         }
         return null;
     }
@@ -47,7 +48,7 @@ public class FileIO {
 
             return Files.exists(path);
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.exists: " + ex);
+            Logger.log("Error in FileIO.exists: " + ex);
             throw ex;
         }
     }
@@ -64,7 +65,7 @@ public class FileIO {
 
             Files.createDirectory(path);
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.createDirectory: " + ex);
+            Logger.log("Error in FileIO.createDirectory: " + ex);
         }
     }
 
@@ -87,7 +88,7 @@ public class FileIO {
 
             Files.move(path, path2);
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.fileMove: " + ex);
+            Logger.log("Error in FileIO.fileMove: " + ex);
         }
     }
 
@@ -103,7 +104,7 @@ public class FileIO {
 
             Files.write(path, lines);
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.writeAllLines: " + ex);
+            Logger.log("Error in FileIO.writeAllLines: " + ex);
         }
     }
 
@@ -121,7 +122,7 @@ public class FileIO {
             writer.write(text);
             writer.close();
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.writeAllText: " + ex);
+            Logger.log("Error in FileIO.writeAllText: " + ex);
         }
     }
 
@@ -139,7 +140,7 @@ public class FileIO {
             writer.write(text + "\n");
             writer.close();
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.appendAllText: " + ex);
+            Logger.log("Error in FileIO.appendAllText: " + ex);
         }
     }
 
@@ -158,7 +159,7 @@ public class FileIO {
                 text = String.join(" ", Files.readAllLines(path));
             }
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.readAllText: " + ex);
+            Logger.log("Error in FileIO.readAllText: " + ex);
         }
 
         return text;
@@ -180,7 +181,7 @@ public class FileIO {
                 lines = (ArrayList<String>) Files.readAllLines(path);
             }
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.readAllLines: " + ex);
+            Logger.log("Error in FileIO.readAllLines: " + ex);
         }
 
         return lines;
@@ -200,7 +201,7 @@ public class FileIO {
                 Files.delete(path);
             }
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.deleteFile: " + ex);
+            Logger.log("Error in FileIO.deleteFile: " + ex);
         }
     }
 
@@ -243,7 +244,7 @@ public class FileIO {
                 path = Paths.get(URI.create("file:" + (System.getProperty("user.dir") + "\\" + filename).replace("\\", "/")));
             }
         } catch (Exception ex) {
-            LogManager.log("Error in FileIO.getFilePath: " + ex);
+            Logger.log("Error in FileIO.getFilePath: " + ex);
         }
 
         return path;

@@ -1,9 +1,10 @@
 package AllDice.Commands;
 
+import AllDice.Classes.Logger;
 import AllDice.Controllers.Client;
 import AllDice.Helper.*;
 import AllDice.Models.Command;
-import AllDice.Models.UserConfig;
+import AllDice.Models.UserConfigs;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 import java.util.List;
@@ -29,9 +30,9 @@ public class FateConfig extends Command {
                             newValue += inputWords.get(i);
                         }
 
-                        UserConfig userConfig = Helper.getUserConfig(textEvent.getInvokerUniqueId());
+                        UserConfigs.UserConfig userConfig = Helper.getUserConfig(textEvent.getInvokerUniqueId());
                         if (userConfig == null){
-                            userConfig = new UserConfig();
+                            userConfig = new UserConfigs.UserConfig();
                         }
                         if (param.toLowerCase().contains("abilityhigh")) {
                             userConfig.fateAbilityHighName = newValue;
@@ -47,9 +48,9 @@ public class FateConfig extends Command {
                     } else if (inputWords.size() == 2) {
                         String param = inputWords.get(1);
 
-                        UserConfig userConfig = Helper.getUserConfig(textEvent.getInvokerUniqueId());
+                        UserConfigs.UserConfig userConfig = Helper.getUserConfig(textEvent.getInvokerUniqueId());
                         if (userConfig == null){
-                            userConfig = new UserConfig();
+                            userConfig = new UserConfigs.UserConfig();
                         }
                         if (param.toLowerCase().contains("abilityhigh")) {
                             userConfig.fateAbilityHighName = null;
@@ -71,7 +72,7 @@ public class FateConfig extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            LogManager.log("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }

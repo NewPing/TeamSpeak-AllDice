@@ -1,4 +1,6 @@
-package AllDice.Helper;
+package AllDice.Classes.Implementations;
+
+import AllDice.Classes.Implementations.Tuple;
 
 import java.util.ArrayList;
 

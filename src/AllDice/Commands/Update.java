@@ -1,9 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Controllers.Client;
-import AllDice.Helper.FileIO;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -17,6 +15,10 @@ public class Update extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
+        Helper.sendMessage(textEvent, client, "not implemented yet...", false);
+        return;
+
+        /*
         String reply = "Running Update Procedure...";
 
         String filename = "TeamSpeak3-AllDice-Query2.jar";
@@ -25,9 +27,10 @@ public class Update extends Command {
                 FileIO.runJavaProcess(filename);
             }
         } catch (Exception ex){
-            LogManager.log("Error in Update\n\n" + ex);
+            Logger.log("Error in Update\n\n" + ex);
         }
 
         Helper.sendMessage(textEvent, client, reply, false);
+        */
     }
 }

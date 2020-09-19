@@ -1,7 +1,8 @@
 package AllDice.Controllers;
 
+import AllDice.Classes.Commands;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
+import AllDice.Classes.Logger;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
@@ -50,14 +51,14 @@ public class Client {
                     api.moveClient(clientID, api.getChannelsByName(controller.settings.standardChannelName).get(0).getId());
                 }
             } catch (Exception ex) {
-                LogManager.log("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
+                Logger.log("Warning: Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
             }
 
             commands = new Commands(this);
             initializeEvents(api, query, this);
-            LogManager.log("Client " + clientID + " started successfully!");
+            Logger.log("Client " + clientID + " started successfully!");
         } catch ( Exception ex){
-            LogManager.log("Exception in client constructor - Please check that the server is running and the login credentials are correct: \n" + ex);
+            Logger.log("Exception in client constructor - Please check that the server is running and the login credentials are correct: \n" + ex);
             controller.clientLeave(clientID);
             query.exit();
         }
@@ -78,7 +79,7 @@ public class Client {
                 api.setNickname(nickname);
             }
         } catch (Exception e) {
-            LogManager.log(e.toString());
+            Logger.log(e.toString());
         }
     }
 

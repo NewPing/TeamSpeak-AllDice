@@ -1,5 +1,7 @@
 package AllDice.Helper;
 
+import AllDice.Classes.Implementations.Tuple;
+
 import java.util.Random;
 
 public class DiceHelper {

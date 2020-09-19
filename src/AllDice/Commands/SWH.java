@@ -4,7 +4,7 @@ import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
+import AllDice.Classes.Logger;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -47,7 +47,7 @@ public class SWH extends Command {
             Helper.sendMessage(textEvent, client, reply, false);
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            LogManager.log("Error in SWH with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log("Error in SWH with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 
     }

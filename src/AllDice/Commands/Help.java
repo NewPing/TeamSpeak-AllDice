@@ -1,9 +1,8 @@
 package AllDice.Commands;
 
 import AllDice.Controllers.Client;
-import AllDice.Controllers.Commands;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
+import AllDice.Classes.Logger;
 import AllDice.Models.Command;
 import AllDice.Models.CommandDef;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -20,13 +19,23 @@ public class Help extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
+        help(textEvent, client, false);
+    }
+
+    public static void help(TextMessageEvent textEvent, Client client, boolean isAdminHelp){
         try{
-            String reply = "Alldice-Helppage:\n";
+            String reply = "";
+            if (isAdminHelp){
+                reply = "Alldice-Admin-Helppage:\n";
+            } else {
+                reply = "Alldice-Helppage:\n";
+            }
+
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
 
             if (values.size() == 0){
                 for (CommandDef command : client.commands.commands) {
-                    if (command.requiresAllDiceAdminGroup == false){
+                    if (command.requiresAllDiceAdminGroup == isAdminHelp){
                         reply += command.index + " -\t" + command.name + "\t" + command.syntax + "\n";
                     }
                 }
@@ -36,7 +45,7 @@ public class Help extends Command {
                 int inputNumber = Integer.parseInt(values.get(0));
 
                 for (CommandDef command : client.commands.commands){
-                    if (command.requiresAllDiceAdminGroup == false){
+                    if (command.requiresAllDiceAdminGroup == isAdminHelp){
                         if (inputNumber == command.index){
                             reply += "Command: " + command.name + "\n";
                             reply += "Syntax: " + command.syntax + "\n";
@@ -55,7 +64,7 @@ public class Help extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            LogManager.log("Error in Help with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log("Error in Help with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 }

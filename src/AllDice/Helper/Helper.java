@@ -1,7 +1,8 @@
 package AllDice.Helper;
 
+import AllDice.Classes.Implementations.JDictionary;
+import AllDice.Classes.Logger;
 import AllDice.Controllers.Client;
-import AllDice.Models.UserConfig;
 import AllDice.Models.UserConfigs;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -20,7 +21,7 @@ public class Helper {
     public static List<String> possibleClientNicknames = new ArrayList<>();
 
     public static void sendMessage(TextMessageEvent textEvent, Client client, String message, Boolean forcePrivate) {
-        LogManager.log("Output: " + message);
+        Logger.log("Output: " + message);
         if (forcePrivate) {
             client.api.sendTextMessage(TextMessageTargetMode.CLIENT, textEvent.getInvokerId(), "\n" + getUserColor(textEvent.getInvokerUniqueId()) + message);
         } else {
@@ -37,7 +38,7 @@ public class Helper {
         }
     }
 
-    public static UserConfig getUserConfig(String uniqueUserID) {
+    public static UserConfigs.UserConfig getUserConfig(String uniqueUserID) {
         if (Helper.userConfigs.userConfigs.contains(uniqueUserID)) {
             return Helper.userConfigs.userConfigs.get(uniqueUserID);
         } else {

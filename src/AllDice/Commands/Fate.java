@@ -4,9 +4,9 @@ import AllDice.Classes.Outputs;
 import AllDice.Controllers.Client;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
-import AllDice.Helper.LogManager;
+import AllDice.Classes.Logger;
 import AllDice.Models.Command;
-import AllDice.Models.UserConfig;
+import AllDice.Models.UserConfigs;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class Fate extends Command {
         String outcomeHighName = "Unbeschreibbarer Erfolg";
 
         if (Helper.userConfigs.userConfigs.contains(client.followClientUniqueID)){
-            UserConfig userConfig = Helper.userConfigs.userConfigs.get(client.followClientUniqueID);
+            UserConfigs.UserConfig userConfig = Helper.userConfigs.userConfigs.get(client.followClientUniqueID);
             if (userConfig.fateAbilityHighName != null){
                 abilityHighName = userConfig.fateAbilityHighName;
             }
@@ -46,13 +46,13 @@ public class Fate extends Command {
             }
         } catch (Exception ex){
             Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
-            LogManager.log("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
+            Logger.log("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 
     private void executePassive(TextMessageEvent textEvent, Client client, String outcomeHighName, String abilityHighName, String abilityLowName){
         try{
-            LogManager.log("Test");
+            Logger.log("Test");
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
             String blancOutput = Outputs.blanc_fate_passive_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
