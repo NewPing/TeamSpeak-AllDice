@@ -22,19 +22,26 @@ public class DeleteLogs extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try {
-            int successfulDeletions = 0;
-            File[] logs = FileIO.getFiles("logs\\", ".log");
-            for(int i = 0; i < logs.length; i++) {
-                try {
-                    if(logs[i].getName() != Logger.standardLogfile + Logger.logfileExtension) {
-                        logs[i].delete();
-                        successfulDeletions++;
-                    }
-                } catch (Exception ex){
-                    Logger.log.warning("Error in DeleteLogs.execute (delete logs) - Failed to delete log: " + logs[i].getAbsolutePath());
+            if (client.controller.settings.writeLog){
+                int successfulDeletions = 0;
+                File[] logs = null;
+                if (FileIO.exists("logs\\")){
+                    logs = FileIO.getFiles("logs\\", ".log");
                 }
+                for(int i = 0; i < logs.length; i++) {
+                    try {
+                        if(logs[i].getName() != Logger.standardLogfile + Logger.logfileExtension) {
+                            logs[i].delete();
+                            successfulDeletions++;
+                        }
+                    } catch (Exception ex){
+                        Logger.log.warning("Error in DeleteLogs.execute (delete logs) - Failed to delete log: " + logs[i].getAbsolutePath());
+                    }
+                }
+                Helper.sendMessage(textEvent, client, "Done - Deleting " + successfulDeletions + "/" + (logs.length) + " Logs", false);
+            } else {
+                Helper.sendMessage(textEvent, client, "Option: writeLogs is disabled in the settings file...\n-> DeleteLogs is also disabled", false);
             }
-            Helper.sendMessage(textEvent, client, "Done - Deleting " + successfulDeletions + "/" + (logs.length) + " Logs", false);
         } catch (Exception ex){
             Logger.log.severe("Error in DeleteLogs.execute: " + ex);
         }

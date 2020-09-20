@@ -22,25 +22,32 @@ public class UploadLogs extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, Client client) {
         try {
-            int successfulUploads = 0;
-            File[] logs = FileIO.getFiles("logs\\", ".log");
-
-            try{
-                removeTs3LogsDirectory(client);
-                client.api.createFileDirectory("logs", client.standardChannelID);
-            } catch (Exception ex){
-                Logger.log.warning("Error in UploadLogs.execute (create empty 'logs' folder in channel: " + client.controller.settings.standardChannelName + ")");
-            }
-
-            for(int i = 0; i < logs.length; i++){
-                try {
-                    client.api.uploadFile(new FileInputStream(logs[i]), logs[i].length(), "logs/" + logs[i].getName(), true, client.standardChannelID);
-                    successfulUploads++;
-                } catch (Exception ex){
-                    Logger.log.warning("Error in UploadLogs.execute (upload logs) - Failed to upload log: " + logs[i].getAbsolutePath());
+            if (client.controller.settings.writeLog) {
+                int successfulUploads = 0;
+                File[] logs = null;
+                if (FileIO.exists("logs\\")){
+                    logs = FileIO.getFiles("logs\\", ".log");
                 }
+
+                try{
+                    removeTs3LogsDirectory(client);
+                    client.api.createFileDirectory("logs", client.standardChannelID);
+                } catch (Exception ex){
+                    Logger.log.warning("Error in UploadLogs.execute (create empty 'logs' folder in channel: " + client.controller.settings.standardChannelName + ")");
+                }
+
+                for(int i = 0; i < logs.length; i++){
+                    try {
+                        client.api.uploadFile(new FileInputStream(logs[i]), logs[i].length(), "logs/" + logs[i].getName(), true, client.standardChannelID);
+                        successfulUploads++;
+                    } catch (Exception ex){
+                        Logger.log.warning("Error in UploadLogs.execute (upload logs) - Failed to upload log: " + logs[i].getAbsolutePath());
+                    }
+                }
+                Helper.sendMessage(textEvent, client, "Done - Uploaded " + successfulUploads + "/" + logs.length + " Logs", false);
+            } else {
+                Helper.sendMessage(textEvent, client, "Option: writeLogs is disabled in the settings file...\n-> UploadLogs is also disabled", false);
             }
-            Helper.sendMessage(textEvent, client, "Done - Uploaded " + successfulUploads + "/" + logs.length + " Logs", false);
         } catch (Exception ex){
             Logger.log.severe("Error in UploadLogs.execute: " + ex);
         }
