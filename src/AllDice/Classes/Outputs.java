@@ -37,20 +37,20 @@ public class Outputs {
             "--$AUTHOR$--\n" +
                     "Fertigkeit ist $SKILL$+$MOD$, passiver Widerstand ist eine $GOAL$.\n\n" +
                     "Wurf: $EMOJIS$ = $RESULT$\n" +
-                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ($ABILITYNAME$)\n" +
-                    "Ergebnis: $OUTCOME$ ($OUTCOMENAME$)";
+                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ( $ABILITYNAME$ )\n" +
+                    "Ergebnis: $OUTCOME$ ( $OUTCOMENAME$ )";
     public static String blanc_fate_active_Output =
             "--$AUTHOR$--\n" +
                     "Fertigkeit ist $SKILL$+$MOD$, aktiver Widerstand ist Fertigkeit $SKILLOPPONENT$+$MODOPPONENT$.\n\n" +
                     "Wurf Spieler: $EMOJIS$ = $RESULT$\n" +
-                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ($ABILITYNAME$)\n" +
+                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ( $ABILITYNAME$ )\n" +
                     "Wurf Widerstand: $EMOJISOPPONENT$ = $RESULTOPPONENT$\n" +
-                    "Rechnung: $RESULTOPPONENT$+$SKILLOPPONENT$+$MODOPPONENT$ = $ABILITYOPPONENT$ ($ABILITYNAMEOPPONENT$)\n" +
-                    "Ergebnis: $OUTCOME$ ($OUTCOMENAME$)";
+                    "Rechnung: $RESULTOPPONENT$+$SKILLOPPONENT$+$MODOPPONENT$ = $ABILITYOPPONENT$ ( $ABILITYNAMEOPPONENT$ )\n" +
+                    "Ergebnis: $OUTCOME$ ( $OUTCOMENAME$ )";
     public static String blanc_st_Output =
             "--$AUTHOR$--\n" +
-                    "($dies$) Erfolge: $successes$, Fehlschläge: $misses$, Schwierigkeit: $difficulty$, $result$";
+                    "( $dies$ ) Erfolge: $successes$, Fehlschläge: $misses$, Schwierigkeit: $difficulty$, $result$";
     public static String blanc_stc_Output =
             "--$AUTHOR$--\n" +
-                    "($dies$) Ergebnis: $sum$, Effekte: $effects$";
+                    "( $dies$ ) Ergebnis: $sum$, Effekte: $effects$";
 }

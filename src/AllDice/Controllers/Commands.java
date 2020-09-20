@@ -1,13 +1,11 @@
 package AllDice.Controllers;
 import AllDice.Commands.*;
-import AllDice.Controllers.Client;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
 import AllDice.Models.CommandDef;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Commands {
     private Client client = null;
@@ -211,7 +209,16 @@ public class Commands {
                         "!uploadLogs",
                         "uploads all log files to standard channel (defined in settings)",
                         "!uploadLogs",
-                        new UploadLog(),
+                        new UploadLogs(),
+                        true,
+                        true
+                ));
+                add(new CommandDef(
+                        "deleteLogs",
+                        "!deleteLogs",
+                        "deletes all historical log files at the local disc",
+                        "!deleteLogs",
+                        new DeleteLogs(),
                         true,
                         true
                 ));

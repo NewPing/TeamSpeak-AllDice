@@ -6,10 +6,12 @@ import AllDice.Helper.FileIO;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import com.github.theholywaffle.teamspeak3.api.wrapper.FileListEntry;
 
 import java.io.*;
+import java.util.List;
 
-public class UploadLog extends Command {
+public class UploadLogs extends Command {
     public static String matchPattern = "^!uploadLogs(?: +)?$";
 
     @Override
@@ -24,10 +26,10 @@ public class UploadLog extends Command {
             File[] logs = FileIO.getFiles("logs\\", ".log");
 
             try{
-                client.api.deleteFile("logs", client.standardChannelID);
+                removeTs3LogsDirectory(client);
                 client.api.createFileDirectory("logs", client.standardChannelID);
             } catch (Exception ex){
-                Logger.log.warning("Error in UploadLog.execute (create empty 'logs' folder in channel: " + client.controller.settings.standardChannelName + ")");
+                Logger.log.warning("Error in UploadLogs.execute (create empty 'logs' folder in channel: " + client.controller.settings.standardChannelName + ")");
             }
 
             for(int i = 0; i < logs.length; i++){
@@ -35,12 +37,21 @@ public class UploadLog extends Command {
                     client.api.uploadFile(new FileInputStream(logs[i]), logs[i].length(), "logs/" + logs[i].getName(), true, client.standardChannelID);
                     successfulUploads++;
                 } catch (Exception ex){
-                    Logger.log.warning("Error in UploadLog.execute (upload logs) - Failed to upload log: " + logs[i].getAbsolutePath());
+                    Logger.log.warning("Error in UploadLogs.execute (upload logs) - Failed to upload log: " + logs[i].getAbsolutePath());
                 }
             }
             Helper.sendMessage(textEvent, client, "Done - Uploaded " + successfulUploads + "/" + logs.length + " Logs", false);
         } catch (Exception ex){
-            Logger.log.severe("Error in UploadLog.execute: " + ex);
+            Logger.log.severe("Error in UploadLogs.execute: " + ex);
+        }
+    }
+
+    private void removeTs3LogsDirectory(Client client) {
+        List<FileListEntry> files = client.api.getFileList("", client.standardChannelID);
+        for(int i = 0; i < files.size(); i++){
+            if (files.get(i).isDirectory() && files.get(i).getName().equals("logs")) {
+                client.api.deleteFile("logs", client.standardChannelID);
+            }
         }
     }
 }

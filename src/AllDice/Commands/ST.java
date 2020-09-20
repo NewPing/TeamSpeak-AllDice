@@ -81,8 +81,8 @@ public class ST extends Command {
 
                 if (successes >= difficulty){
                     result = "[b]Gelungen[/b]";
-                    if (successes - misses > 0){
-                        result += ", Momentum " + (successes - misses);
+                    if (successes - difficulty > 0){
+                        result += ", Momentum " + (successes - difficulty);
                     }
                 } else {
                     result = "[b]Misslungen[/b]";
