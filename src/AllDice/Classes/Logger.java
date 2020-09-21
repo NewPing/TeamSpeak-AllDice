@@ -12,7 +12,7 @@ import java.util.logging.SimpleFormatter;
 
 public class Logger {
     public static Settings settings = null;
-    public static String logFolder = "logs\\";
+    public static String logFolder = "logs/";
     public static String standardLogfile = "alldice";
     public static String logfileExtension = ".log";
     public final static java.util.logging.Logger log = java.util.logging.Logger.getLogger(java.util.logging.Logger.getGlobal().getName());
@@ -26,11 +26,6 @@ public class Logger {
             for(int i = 0; i < log.getHandlers().length; i++){
                 log.removeHandler(log.getHandlers()[i]);
             }
-
-            ConsoleHandler consoleHandler = new ConsoleHandler();
-            consoleHandler.setFormatter(new SimpleFormatter());
-            consoleHandler.setLevel(Level.ALL);
-            log.addHandler(consoleHandler);
 
             if (settings.writeLog){
                 FileHandler fileHandler = new FileHandler(logFolder + standardLogfile + logfileExtension);

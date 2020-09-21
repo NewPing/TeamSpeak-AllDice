@@ -13,15 +13,17 @@ import java.util.TimerTask;
 public class Controller {
     public static ArrayList<Client> clients = new ArrayList<>();
     public static Settings settings;
-    public static final String Version = "1.3";
+    public static final String Version = "1.3.1";
     private static boolean clientsCrashed = false;
 
     public Controller(){
         try{
             int errors = 0;
             errors += loadSettings();
-            Logger.settings = settings;
-            Logger.init();
+            if (errors == 0){
+                Logger.settings = settings;
+                Logger.init();
+            }
 
             errors += loadClientNicknames();
             errors += loadUserColors();
