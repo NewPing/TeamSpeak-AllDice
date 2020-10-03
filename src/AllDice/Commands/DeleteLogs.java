@@ -1,15 +1,13 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Logger;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.FileIO;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
-import com.github.theholywaffle.teamspeak3.api.wrapper.FileListEntry;
 
 import java.io.*;
-import java.util.List;
 
 public class DeleteLogs extends Command {
     public static String matchPattern = "^!deleteLogs(?: +)?$";
@@ -20,9 +18,9 @@ public class DeleteLogs extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try {
-            if (client.controller.settings.writeLog){
+            if (clientController.sessionController.settings.writeLog){
                 int successfulDeletions = 0;
                 File[] logs = null;
                 if (FileIO.exists("logs\\")){
@@ -38,9 +36,9 @@ public class DeleteLogs extends Command {
                         Logger.log.warning("Error in DeleteLogs.execute (delete logs) - Failed to delete log: " + logs[i].getAbsolutePath());
                     }
                 }
-                Helper.sendMessage(textEvent, client, "Done - Deleting " + successfulDeletions + "/" + (logs.length) + " Logs", false);
+                Helper.sendMessage(textEvent, clientController, "Done - Deleting " + successfulDeletions + "/" + (logs.length) + " Logs", false);
             } else {
-                Helper.sendMessage(textEvent, client, "Option: writeLogs is disabled in the settings file...\n-> DeleteLogs is also disabled", false);
+                Helper.sendMessage(textEvent, clientController, "Option: writeLogs is disabled in the settings file...\n-> DeleteLogs is also disabled", false);
             }
         } catch (Exception ex){
             Logger.log.severe("Error in DeleteLogs.execute: " + ex);

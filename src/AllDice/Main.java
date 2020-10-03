@@ -1,13 +1,13 @@
 package AllDice;
 
-import AllDice.Controllers.Controller;
-import AllDice.Helper.FileIO;
+import AllDice.Controllers.SessionController;
+import AllDice.Controllers.SessionManager;
 
 public class Main {
-
-    private static Controller controller = null;
-
-    public static void main(String[] args) {
-        controller = new Controller();
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(() -> SessionManager.init()).start();
+        while(true){
+            Thread.sleep(1000);
+        }
     }
 }

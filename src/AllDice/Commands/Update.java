@@ -1,6 +1,6 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -14,8 +14,8 @@ public class Update extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        Helper.sendMessage(textEvent, client, "not implemented yet...", false);
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        Helper.sendMessage(textEvent, clientController, "not implemented yet...", false);
         return;
 
         /*
@@ -30,7 +30,7 @@ public class Update extends Command {
             Logger.log("Error in Update\n\n" + ex);
         }
 
-        Helper.sendMessage(textEvent, client, reply, false);
+        Helper.sendMessage(textEvent, clientController, reply, false);
         */
     }
 }

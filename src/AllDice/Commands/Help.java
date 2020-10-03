@@ -1,6 +1,6 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
 import AllDice.Models.Command;
@@ -18,11 +18,11 @@ public class Help extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        help(textEvent, client, false);
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        help(textEvent, clientController, false);
     }
 
-    public static void help(TextMessageEvent textEvent, Client client, boolean isAdminHelp){
+    public static void help(TextMessageEvent textEvent, ClientController clientController, boolean isAdminHelp){
         try{
             String reply = "";
             if (isAdminHelp){
@@ -34,17 +34,17 @@ public class Help extends Command {
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
 
             if (values.size() == 0){
-                for (CommandDef command : client.commands.commands) {
+                for (CommandDef command : clientController.commandsManager.commands) {
                     if (command.requiresAllDiceAdminGroup == isAdminHelp){
                         reply += command.index + " -\t" + command.name + "\t" + command.syntax + "\n";
                     }
                 }
-                Helper.sendMessage(textEvent, client, reply, false);
+                Helper.sendMessage(textEvent, clientController, reply, false);
             } else {
                 boolean commandFound = false;
                 int inputNumber = Integer.parseInt(values.get(0));
 
-                for (CommandDef command : client.commands.commands){
+                for (CommandDef command : clientController.commandsManager.commands){
                     if (command.requiresAllDiceAdminGroup == isAdminHelp){
                         if (inputNumber == command.index){
                             reply += "Command: " + command.name + "\n";
@@ -57,13 +57,13 @@ public class Help extends Command {
                 }
 
                 if (commandFound){
-                    Helper.sendMessage(textEvent, client, reply, false);
+                    Helper.sendMessage(textEvent, clientController, reply, false);
                 } else {
-                    Helper.sendMessage(textEvent, client, reply + "Couldnt find a command with that index...", false);
+                    Helper.sendMessage(textEvent, clientController, reply + "Couldnt find a command with that index...", false);
                 }
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in Help with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }

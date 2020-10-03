@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Logger;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.FileIO;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
@@ -20,9 +20,9 @@ public class UploadLogs extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try {
-            if (client.controller.settings.writeLog) {
+            if (clientController.sessionController.settings.writeLog) {
                 int successfulUploads = 0;
                 File[] logs = null;
                 if (FileIO.exists("logs\\")){
@@ -30,34 +30,34 @@ public class UploadLogs extends Command {
                 }
 
                 try{
-                    removeTs3LogsDirectory(client);
-                    client.api.createFileDirectory("logs", client.standardChannelID);
+                    removeTs3LogsDirectory(clientController);
+                    clientController.api.createFileDirectory("logs", clientController.standardChannelID);
                 } catch (Exception ex){
-                    Logger.log.warning("Error in UploadLogs.execute (create empty 'logs' folder in channel: " + client.controller.settings.standardChannelName + ")");
+                    Logger.log.warning("Error in UploadLogs.execute (create empty 'logs' folder in channel: " + clientController.sessionController.settings.standardChannelName + ")");
                 }
 
                 for(int i = 0; i < logs.length; i++){
                     try {
-                        client.api.uploadFile(new FileInputStream(logs[i]), logs[i].length(), "logs/" + logs[i].getName(), true, client.standardChannelID);
+                        clientController.api.uploadFile(new FileInputStream(logs[i]), logs[i].length(), "logs/" + logs[i].getName(), true, clientController.standardChannelID);
                         successfulUploads++;
                     } catch (Exception ex){
                         Logger.log.warning("Error in UploadLogs.execute (upload logs) - Failed to upload log: " + logs[i].getAbsolutePath());
                     }
                 }
-                Helper.sendMessage(textEvent, client, "Done - Uploaded " + successfulUploads + "/" + logs.length + " Logs", false);
+                Helper.sendMessage(textEvent, clientController, "Done - Uploaded " + successfulUploads + "/" + logs.length + " Logs", false);
             } else {
-                Helper.sendMessage(textEvent, client, "Option: writeLogs is disabled in the settings file...\n-> UploadLogs is also disabled", false);
+                Helper.sendMessage(textEvent, clientController, "Option: writeLogs is disabled in the settings file...\n-> UploadLogs is also disabled", false);
             }
         } catch (Exception ex){
             Logger.log.severe("Error in UploadLogs.execute: " + ex);
         }
     }
 
-    private void removeTs3LogsDirectory(Client client) {
-        List<FileListEntry> files = client.api.getFileList("", client.standardChannelID);
+    private void removeTs3LogsDirectory(ClientController clientController) {
+        List<FileListEntry> files = clientController.api.getFileList("", clientController.standardChannelID);
         for(int i = 0; i < files.size(); i++){
             if (files.get(i).isDirectory() && files.get(i).getName().equals("logs")) {
-                client.api.deleteFile("logs", client.standardChannelID);
+                clientController.api.deleteFile("logs", clientController.standardChannelID);
             }
         }
     }

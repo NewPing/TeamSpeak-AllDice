@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -20,13 +20,13 @@ public class Fate extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         String abilityHighName = "Unbeschreibbar";
         String abilityLowName = "Unbeschreibbar schlecht";
         String outcomeHighName = "Unbeschreibbarer Erfolg";
 
-        if (Helper.userConfigs.userConfigs.contains(client.followClientUniqueID)){
-            UserConfigs.UserConfig userConfig = Helper.userConfigs.userConfigs.get(client.followClientUniqueID);
+        if (Helper.userConfigs.userConfigs.contains(clientController.followClientUniqueID)){
+            UserConfigs.UserConfig userConfig = Helper.userConfigs.userConfigs.get(clientController.followClientUniqueID);
             if (userConfig.fateAbilityHighName != null){
                 abilityHighName = userConfig.fateAbilityHighName;
             }
@@ -40,17 +40,17 @@ public class Fate extends Command {
 
         try{
             if (textEvent.getMessage().matches(passiveThrow)){
-                executePassive(textEvent, client, outcomeHighName, abilityHighName, abilityLowName);
+                executePassive(textEvent, clientController, outcomeHighName, abilityHighName, abilityLowName);
             } else {
-                executeActive(textEvent, client, outcomeHighName, abilityHighName, abilityLowName);
+                executeActive(textEvent, clientController, outcomeHighName, abilityHighName, abilityLowName);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in Fate with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
 
-    private void executePassive(TextMessageEvent textEvent, Client client, String outcomeHighName, String abilityHighName, String abilityLowName){
+    private void executePassive(TextMessageEvent textEvent, ClientController clientController, String outcomeHighName, String abilityHighName, String abilityLowName){
         try{
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
             String blancOutput = Outputs.blanc_fate_passive_Output;
@@ -120,13 +120,13 @@ public class Fate extends Command {
             reply = reply.replace("$OUTCOMENAME$", DiceHelper.getFateOutcomeName(outcome, outcomeHighName));
             reply = reply.replace("$EMOJIS$", DiceHelper.getFateEmojis(rolls));
 
-            Helper.sendMessage(textEvent, client, reply, false);
+            Helper.sendMessage(textEvent, clientController, reply, false);
         } catch (Exception ex){
             throw ex;
         }
     }
 
-    private void executeActive(TextMessageEvent textEvent, Client client, String outcomeHighName, String abilityHighName, String abilityLowName){
+    private void executeActive(TextMessageEvent textEvent, ClientController clientController, String outcomeHighName, String abilityHighName, String abilityLowName){
         try{
             ArrayList<String> valuesLeft = Helper.getRegexMatches(textEvent.getMessage().toLowerCase().split(",")[0], "\\d+"); //before , (user)
             ArrayList<String> valuesRight = new ArrayList<>();
@@ -194,7 +194,7 @@ public class Fate extends Command {
             reply = reply.replace("$OUTCOMENAME$", DiceHelper.getFateOutcomeName(outcome, outcomeHighName));
             reply = reply.replace("+-", "-");
 
-            Helper.sendMessage(textEvent, client, reply, false);
+            Helper.sendMessage(textEvent, clientController, reply, false);
         } catch (Exception ex){
             throw ex;
         }

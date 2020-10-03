@@ -1,6 +1,6 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -13,7 +13,7 @@ public class AdminHelp extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        Help.help(textEvent, client, true);
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        Help.help(textEvent, clientController, true);
     }
 }

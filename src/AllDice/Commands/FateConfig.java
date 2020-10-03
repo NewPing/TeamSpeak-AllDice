@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Logger;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.*;
 import AllDice.Models.Command;
 import AllDice.Models.UserConfigs;
@@ -18,9 +18,9 @@ public class FateConfig extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
-            if (textEvent.getInvokerUniqueId().equals(client.followClientUniqueID)){
+            if (textEvent.getInvokerUniqueId().equals(clientController.followClientUniqueID)){
                 List<String> inputWords = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "[^\\s]+");
                 if (inputWords.size() >= 2 && inputWords.get(1).toLowerCase().matches("(abilityhigh|abilitylow|outcomehigh)")){
                     if (inputWords.size() >= 3){
@@ -43,7 +43,7 @@ public class FateConfig extends Command {
                         }
                         Helper.userConfigs.userConfigs.add(textEvent.getInvokerUniqueId(), userConfig);
 
-                        Helper.sendMessage(textEvent, client, "Neuer Parameterwert für '" + param + "' auf '" + newValue + "' gesetzt...", false);
+                        Helper.sendMessage(textEvent, clientController, "Neuer Parameterwert für '" + param + "' auf '" + newValue + "' gesetzt...", false);
                         FileIO.serializeToFile("userconfigs.json", Helper.userConfigs);
                     } else if (inputWords.size() == 2) {
                         String param = inputWords.get(1);
@@ -61,17 +61,17 @@ public class FateConfig extends Command {
                         }
                         Helper.userConfigs.userConfigs.add(textEvent.getInvokerUniqueId(), userConfig);
 
-                        Helper.sendMessage(textEvent, client, "Neuer Parameterwert für '" + param + "' auf Standardwert zurückgesetzt...", false);
+                        Helper.sendMessage(textEvent, clientController, "Neuer Parameterwert für '" + param + "' auf Standardwert zurückgesetzt...", false);
                         FileIO.serializeToFile("userconfigs.json", Helper.userConfigs);
                     }
                 } else {
-                    Helper.sendMessage(textEvent, client, "Syntax Error : Anzahl Eingabeparameter müssen >= 2 sein und abilityhigh, abilitylow oder outcomehigh als parameter enthalten!", false);
+                    Helper.sendMessage(textEvent, clientController, "Syntax Error : Anzahl Eingabeparameter müssen >= 2 sein und abilityhigh, abilitylow oder outcomehigh als parameter enthalten!", false);
                 }
             } else {
-                Helper.sendMessage(textEvent, client, "Command Error : Nur der Eigentümer dieser Würfel darf Sie zinken...", false);
+                Helper.sendMessage(textEvent, clientController, "Command Error : Nur der Eigentümer dieser Würfel darf Sie zinken...", false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in FateConfig with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }

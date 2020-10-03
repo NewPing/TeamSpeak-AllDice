@@ -1,6 +1,7 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
+import AllDice.Controllers.SessionController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
@@ -18,17 +19,18 @@ public class Follow extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        if (client.followClientID == -1){
-            client.followClientID = textEvent.getInvokerId();
-            client.followClientUniqueID = textEvent.getInvokerUniqueId();
-            Helper.sendMessage(textEvent, client, getGreetingText(), false);
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        if (clientController.followClientID == -1){
+            clientController.followClientID = textEvent.getInvokerId();
+            clientController.followClientUniqueID = textEvent.getInvokerUniqueId();
+            Helper.sendMessage(textEvent, clientController, getGreetingText(), false);
             try{
-                client.api.moveClient(client.clientID, client.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
+                clientController.api.moveClient(clientController.clientID, clientController.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
             } catch (Exception ex) { }
-            new Thread(() -> client.controller.invokeCreateNewClientInstance()).start();
+            SessionController.isIdleClientOnline = false;
+            new Thread(() -> clientController.sessionController.invokeCreateNewClientInstance()).start();
         } else {
-            Helper.sendMessage(textEvent, client, "I m already following you...", false);
+            Helper.sendMessage(textEvent, clientController, "I m already following you...", false);
         }
     }
 

@@ -12,8 +12,8 @@ public class CommandDef {
     public boolean ignoreFollowFlag;
     public boolean requiresAllDiceAdminGroup;
 
-    public CommandDef(String _name, String _syntax, String _description, String _example, Command _command, boolean _ignoreFollowFlag, boolean _requiresAllDiceAdminGroup){
-        index = Helper.commandIndexCounter++;
+    public CommandDef(int commandIndex, String _name, String _syntax, String _description, String _example, Command _command, boolean _ignoreFollowFlag, boolean _requiresAllDiceAdminGroup){
+        index = commandIndex;
         name = _name;
         syntax = _syntax;
         description = _description;

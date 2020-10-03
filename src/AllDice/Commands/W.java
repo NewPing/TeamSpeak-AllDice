@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -19,7 +19,7 @@ public class W extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
             String blancOutput = Outputs.blanc_w_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -40,7 +40,7 @@ public class W extends Command {
             {
                 if (inputNumbers[0] < 1)
                 {
-                    Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
+                    Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                 }
                 else
                 {
@@ -52,7 +52,7 @@ public class W extends Command {
                     sum = randNumbers[0];
                     reply = reply.replace("$RESULT$", String.valueOf(sum));
 
-                    Helper.sendMessage(textEvent, client, reply, false);
+                    Helper.sendMessage(textEvent, clientController, reply, false);
                 }
             }
             else if (inputNumbers.length == 2)
@@ -61,7 +61,7 @@ public class W extends Command {
                 {
                     if (inputNumbers[0] < 1)
                     {
-                        Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
+                        Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                     }
                     else
                     {
@@ -81,14 +81,14 @@ public class W extends Command {
                         reply = reply.replace("$ADD$", String.valueOf(inputNumbers[1]));
                         reply = reply.replace("$RESULT$", String.valueOf(sum + inputNumbers[1]));
 
-                        Helper.sendMessage(textEvent, client, reply, false);
+                        Helper.sendMessage(textEvent, clientController, reply, false);
                     }
                 }
                 else
                 {
                     if (inputNumbers[0] < 1 || inputNumbers[1] < 1)
                     {
-                        Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
+                        Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                     }
                     else
                     {
@@ -111,7 +111,7 @@ public class W extends Command {
                         reply = reply.replace("+$RANDNUMBER$", "");
                         reply = reply.replace("$RESULT$", String.valueOf(sum));
 
-                        Helper.sendMessage(textEvent, client, reply, false);
+                        Helper.sendMessage(textEvent, clientController, reply, false);
                     }
                 }
             }
@@ -119,7 +119,7 @@ public class W extends Command {
             {
                 if (inputNumbers[0] < 1)
                 {
-                    Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
+                    Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer als 0 sein!", false);
                 }
                 else
                 {
@@ -147,11 +147,11 @@ public class W extends Command {
                     reply = reply.replace("$ADD$", String.valueOf(inputNumbers[2]));
                     reply = reply.replace("$RESULT$", String.valueOf(sum + inputNumbers[2]));
 
-                    Helper.sendMessage(textEvent, client, reply, false);
+                    Helper.sendMessage(textEvent, clientController, reply, false);
                 }
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in W with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 

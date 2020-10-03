@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Controller {
-    public static ArrayList<Client> clients = new ArrayList<>();
+public class SessionController {
+    public static ArrayList<ClientController> clientControllers = new ArrayList<>();
     public static Settings settings;
     public static final String Version = "1.3.1";
+    public static boolean isIdleClientOnline = false;
     private static boolean clientsCrashed = false;
+    private static boolean isShutdown = false;
 
-    public Controller(){
+    public SessionController(){
         try{
             int errors = 0;
             errors += loadSettings();
@@ -33,15 +35,15 @@ public class Controller {
                 if (!Helper.isNullOrWhitespace(settings.ip) && !Helper.isNullOrWhitespace(settings.username) && !Helper.isNullOrWhitespace(settings.password)){
                     try {
                         Logger.log.info("Starting ...");
-                        clients.add(new Client(this, settings.ip, settings.username, settings.password));
+                        clientControllers.add(new ClientController(this, settings.ip, settings.username, settings.password));
                     } catch (Exception ex) {
-                        Logger.log.severe("Exception in Controller... " + ex);
-                        clients.clear();
+                        Logger.log.severe("Exception in SessionController... " + ex);
+                        clientControllers.clear();
                     }
 
                     Timer timerStayAlive = new Timer();
                     TimerTask checkStayAlive = new CheckStayAlive(this);
-                    timerStayAlive.scheduleAtFixedRate(checkStayAlive, 1000, 30000);
+                    timerStayAlive.scheduleAtFixedRate(checkStayAlive, 1000, 300000); //every 3 min.
                 } else {
                     Logger.log.severe("Server IP, Query Username or Password not set...");
                 }
@@ -50,7 +52,7 @@ public class Controller {
                 System.exit(-1);
             }
         } catch (Exception ex){
-            System.out.println("Error in Controller.Controller: " + ex);
+            System.out.println("Error in SessionController.SessionController: " + ex);
         }
 
     }
@@ -124,9 +126,10 @@ public class Controller {
 
     public void invokeCreateNewClientInstance() {
         try{
-            if (settings.startInServerMode || clientsCrashed){
+            if ((settings.startInServerMode && !isIdleClientOnline)  || clientsCrashed){
                 clientsCrashed = false;
-                clients.add(new Client(this, settings.ip, settings.username, settings.password));
+                isIdleClientOnline = true;
+                clientControllers.add(new ClientController(this, settings.ip, settings.username, settings.password));
             }
         } catch (Exception ex) {
             Logger.log.severe("Exception in invokeCreateNewClientInstance... " + ex);
@@ -134,43 +137,43 @@ public class Controller {
     }
 
     public void clientLeave(int clientID){
-        for(int i = 0; i < clients.size(); i++){
-            if (clients.get(i).clientID == clientID){
-                clients.remove(clients.get(i));
+        for(int i = 0; i < clientControllers.size(); i++){
+            if (clientControllers.get(i).clientID == clientID){
+                clientControllers.remove(clientControllers.get(i));
             }
         }
     }
 
     class CheckStayAlive extends TimerTask {
 
-        private Controller controller = null;
+        private SessionController sessionController = null;
 
-        public CheckStayAlive(Controller _controller) {
-            controller = _controller;
+        public CheckStayAlive(SessionController _sessionController) {
+            sessionController = _sessionController;
         }
 
         @Override
         public void run() {
-            if (controller.clients.size() == 0) {
+            if (sessionController.clientControllers.size() == 0) {
                 if (settings.startInServerMode){
-                    Logger.log.warning("Running keep alive procedure... (clients.size is 0)");
-                    new Thread(() -> controller.invokeCreateNewClientInstance()).start();
+                    Logger.log.warning("Running keep alive procedure... (clientControllers.size is 0)");
+                    new Thread(() -> sessionController.invokeCreateNewClientInstance()).start();
                 } else {
-                    Logger.log.warning("Would like to run keep alive procedure... (clients.size is 0) but startInServerMode is set to false");
+                    Logger.log.warning("Would like to run keep alive procedure... (clientControllers.size is 0) but startInServerMode is set to false");
                 }
             } else {
-                //check if one or more clients lost the connection to the server / crashed
-                for(int i = 0; i < controller.clients.size(); i++){
-                    if (!controller.clients.get(i).query.isConnected()){
-                        Logger.log.warning("Client: " + controller.clients.get(i).clientID + " connected? " + controller.clients.get(i).query.isConnected());
-                        controller.clientsCrashed = true;
+                //check if one or more clientControllers lost the connection to the server / crashed
+                for(int i = 0; i < sessionController.clientControllers.size(); i++){
+                    if (!sessionController.clientControllers.get(i).query.isConnected()){
+                        Logger.log.warning("ClientController: " + sessionController.clientControllers.get(i).clientID + " connected? " + sessionController.clientControllers.get(i).query.isConnected());
+                        sessionController.clientsCrashed = true;
                     }
                 }
                 if (clientsCrashed){
                     //shit went south - now we need to clean that mess up...
-                    Logger.log.warning("Running keep alive crash procedure (cleanup clients & start new client instance | clientsCrashed is true)...");
-                    controller.clients = new ArrayList<>();
-                    controller.invokeCreateNewClientInstance();
+                    Logger.log.warning("Running keep alive crash procedure (cleanup clientControllers & start new client instance | clientsCrashed is true)...");
+                    sessionController.clientControllers = new ArrayList<>();
+                    new Thread(() -> sessionController.invokeCreateNewClientInstance()).start();
                 }
             }
         }

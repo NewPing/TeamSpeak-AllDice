@@ -1,6 +1,6 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -14,13 +14,13 @@ public class Leave extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        if (textEvent.getInvokerId() == client.followClientID){
-            Helper.sendMessage(textEvent, client, "leaving...", false);
-            client.controller.clientLeave(client.clientID);
-            client.query.exit();
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        if (textEvent.getInvokerId() == clientController.followClientID){
+            Helper.sendMessage(textEvent, clientController, "leaving...", false);
+            clientController.sessionController.clientLeave(clientController.clientID);
+            clientController.query.exit();
         } else {
-            Helper.sendMessage(textEvent, client, "Cant force me to leave, when you are not the one i m following...", false);
+            Helper.sendMessage(textEvent, clientController, "Cant force me to leave, when you are not the one i m following...", false);
         }
     }
 }

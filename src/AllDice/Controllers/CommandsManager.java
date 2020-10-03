@@ -7,15 +7,17 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 import java.util.ArrayList;
 
-public class Commands {
-    private Client client = null;
+public class CommandsManager {
+    private ClientController clientController = null;
     public ArrayList<CommandDef> commands = null;
+    public static int commandIndex = 1;
 
-    public Commands(Client _client){
-        client = _client;
+    public CommandsManager(ClientController _clientController){
+        clientController = _clientController;
         commands = new ArrayList<CommandDef>() {
             {
                 add(new CommandDef(
+                        commandIndex++,
                         "info",
                         "!info",
                         "prints a info page",
@@ -25,6 +27,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "help",
                         "!help (index)",
                         "prints the help page",
@@ -34,6 +37,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "color",
                         "!color (color)",
                         "set the color of your output",
@@ -43,6 +47,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "pm",
                         "!pm",
                         "opens a private chat with AllDice",
@@ -52,6 +57,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "follow",
                         "!follow",
                         "lets alldice follow you",
@@ -61,6 +67,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "leave",
                         "!leave",
                         "disconnects alldice",
@@ -70,6 +77,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Probewurf",
                         "!(zahl)w(zahl)(+/-zahl)",
                         "Würfelt einen virtuellen Würfel mit der angegebenen Augenzahl",
@@ -79,6 +87,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Savage Worlds Wildcard",
                         "!sww(zahl)(+/-zahl)",
                         "Savage Worlds Wildcard-Eigenschaftsprobe",
@@ -88,6 +97,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Savage Worlds Statist",
                         "!sws(zahl)(+/-zahl)",
                         "Savage Worlds Statist Probe",
@@ -97,6 +107,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Savage Worlds Damage",
                         "!swd(zahl),(zahl),(+/-zahl)",
                         "Savage Worlds Damage Probe",
@@ -106,6 +117,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Savage Worlds Damage-Zone",
                         "!swh",
                         "Savage Worlds Damage-Zone Probe",
@@ -115,6 +127,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Das Schwarze Auge",
                         "!dsa (zahl),(zahl),(zahl)(,+/-zahl)",
                         "Das Schwarze Auge Probewurf",
@@ -124,6 +137,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Cthulhu Probe",
                         "!cth(zahl)(+/-zahl)",
                         "Würfelt einen Cthulhu Probewurf",
@@ -133,6 +147,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Dimensions Probe",
                         "!d(+/-zahl)",
                         "Würfelt einen W30 mit Modifikator",
@@ -142,6 +157,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Fate Probe",
                         "!f(skill)(+/-)(mod),(goal)/(f(skill2)(+/-)(mod2))",
                         "Würfelt einen Fate Probewurf",
@@ -151,6 +167,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Fate Config",
                         "!fconfig (option) (new output)",
                         "Ermöglicht das setzen der Ausgabetexte von abilityHigh, abilityLow und outcomeHigh",
@@ -160,6 +177,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Star Trek Probe",
                         "!st(zahl),(zahl),(zahl)",
                         "Star Trek Probewurf mit: Anzahl W20, Schwellwert, Schwierigkeit",
@@ -169,6 +187,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Star Trek Fokus",
                         "!stf(zahl),(zahl),(zahl)",
                         "Star Trek Fokus Probe mit: Anzahl W20, Schwellwert, Schwierigkeit",
@@ -178,6 +197,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "Star Trek Challenge",
                         "!stc(zahl)",
                         "Star Trek Challenge mit: Anzahl W6",
@@ -187,6 +207,7 @@ public class Commands {
                         false
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "adminhelp",
                         "!adminhelp (index)",
                         "prints the admin help page",
@@ -196,6 +217,7 @@ public class Commands {
                         true
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "update",
                         "!update",
                         "Checks and performs a update of AllDice (if a newer version exists)",
@@ -205,6 +227,7 @@ public class Commands {
                         true
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "uploadLogs",
                         "!uploadLogs",
                         "uploads all log files to standard channel (defined in settings)",
@@ -214,6 +237,7 @@ public class Commands {
                         true
                 ));
                 add(new CommandDef(
+                        commandIndex++,
                         "deleteLogs",
                         "!deleteLogs",
                         "deletes all historical log files at the local disc",
@@ -226,20 +250,20 @@ public class Commands {
         };
     }
 
-    public void handleCommandInput(TextMessageEvent messageEvent, Client client){
+    public void handleCommandInput(TextMessageEvent messageEvent, ClientController clientController){
         for( int i = 0; i < commands.size(); i++){
             if (commands.get(i).command.check(messageEvent.getMessage().toLowerCase())){
-                if (client.followClientID != -1 || commands.get(i).ignoreFollowFlag) {
+                if (clientController.followClientID != -1 || commands.get(i).ignoreFollowFlag) {
                     Logger.log.fine("handleCommand :: User: " + messageEvent.getInvokerName() + "Input: " + messageEvent.getMessage());
                     if (commands.get(i).requiresAllDiceAdminGroup){
-                        if (Helper.isUserAllDiceAdmin(messageEvent, client)){
-                            Helper.sendMessage(messageEvent, client, "Command requires elevated permissions - Executing ...", false);
-                            commands.get(i).command.execute(messageEvent, client);
+                        if (Helper.isUserAllDiceAdmin(messageEvent, clientController)){
+                            Helper.sendMessage(messageEvent, clientController, "Command requires elevated permissions - Executing ...", false);
+                            commands.get(i).command.execute(messageEvent, clientController);
                         } else {
-                            Helper.sendMessage(messageEvent, client, "Command requires elevated permissions - Execution denied ...", false);
+                            Helper.sendMessage(messageEvent, clientController, "Command requires elevated permissions - Execution denied ...", false);
                         }
                     } else {
-                        commands.get(i).command.execute(messageEvent, client);
+                        commands.get(i).command.execute(messageEvent, clientController);
                     }
                 }
             }

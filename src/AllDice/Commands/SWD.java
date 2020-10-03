@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -19,7 +19,7 @@ public class SWD extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
             String blancOutput = Outputs.blanc_swd_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -38,7 +38,7 @@ public class SWD extends Command {
 
             if (inputNumbers[0] < 2 || inputNumbers[1] < 2)
             {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 1 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer als 1 sein!", false);
             }
             else {
                 explodingDice0 = DiceHelper.getExplodingDice(inputNumbers[0]);
@@ -73,10 +73,10 @@ public class SWD extends Command {
 
                 reply = reply.replace("$RESULT$", String.valueOf((explodingDice0.Item1 + explodingDice1.Item1 + inputNumbers[2])));
 
-                Helper.sendMessage(textEvent, client, reply, false);
+                Helper.sendMessage(textEvent, clientController, reply, false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in SWD with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 

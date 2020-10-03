@@ -1,6 +1,6 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.FileIO;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -18,14 +18,14 @@ public class Color extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         List<String> inputWords = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "[^\\s]+");
         if (inputWords.size() > 1){
             Helper.userColor.add(textEvent.getInvokerUniqueId(), inputWords.get(1));
-            Helper.sendMessage(textEvent, client, "new color '" + inputWords.get(1) + "' set...", false);
+            Helper.sendMessage(textEvent, clientController, "new color '" + inputWords.get(1) + "' set...", false);
         } else {
             Helper.userColor.remove(textEvent.getInvokerUniqueId());
-            Helper.sendMessage(textEvent, client, "color parameter removed...", false);
+            Helper.sendMessage(textEvent, clientController, "color parameter removed...", false);
         }
 
         try{

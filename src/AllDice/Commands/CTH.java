@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -18,7 +18,7 @@ public class CTH extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
             String blancOutput = Outputs.blanc_cth_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -50,7 +50,7 @@ public class CTH extends Command {
 
             if (inputNumbers[0] < 0)
             {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer als 0 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer als 0 sein!", false);
             }
             else
             {
@@ -79,10 +79,10 @@ public class CTH extends Command {
                 reply = reply.replace("$RANDNUMBER$", String.valueOf(randomNumber));
                 reply = reply.replace("$RESULT$", result);
 
-                Helper.sendMessage(textEvent, client, reply, false);
+                Helper.sendMessage(textEvent, clientController, reply, false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in CTH with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
 

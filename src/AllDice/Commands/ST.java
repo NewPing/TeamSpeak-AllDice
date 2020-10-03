@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -19,11 +19,11 @@ public class ST extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        starTrek(textEvent, client, false);
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        starTrek(textEvent, clientController, false);
     }
 
-    public static void starTrek(TextMessageEvent textEvent, Client client, boolean isFocus){
+    public static void starTrek(TextMessageEvent textEvent, ClientController clientController, boolean isFocus){
         try{
             String blancOutput = Outputs.blanc_st_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -42,11 +42,11 @@ public class ST extends Command {
             int difficulty = inputNumbers[2];
 
             if (dies < 1) {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabewert 1 muss größer oder gleich 1 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabewert 1 muss größer oder gleich 1 sein!", false);
             } else if (threshold < 1) {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabewert 2 muss größer oder gleich 1 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabewert 2 muss größer oder gleich 1 sein!", false);
             } else if (difficulty < 0){
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabewert 3 muss größer oder gleich 0 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabewert 3 muss größer oder gleich 0 sein!", false);
             } else {
                 String result = "";
                 int successes = 0;
@@ -98,10 +98,10 @@ public class ST extends Command {
                 reply = reply.replace("$difficulty$", String.valueOf(difficulty));
                 reply = reply.replace("$result$", result);
 
-                Helper.sendMessage(textEvent, client, reply, false);
+                Helper.sendMessage(textEvent, clientController, reply, false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in starTrek with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }

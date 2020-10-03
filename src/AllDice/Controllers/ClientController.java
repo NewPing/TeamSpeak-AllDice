@@ -11,8 +11,8 @@ import com.github.theholywaffle.teamspeak3.api.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Client {
-    public Controller controller;
+public class ClientController {
+    public SessionController sessionController;
     public int clientID = -1;
     public int standardChannelID = -1;
     public int currentChannelID = -1;
@@ -20,18 +20,18 @@ public class Client {
     public String followClientUniqueID = "-1";
     public TS3Api api = null;
     public TS3Query query = null;
-    public Commands commands = null;
+    public CommandsManager commandsManager = null;
 
     /**
      * Constructor
-     * @param _controller
+     * @param _sessionController
      * @param ip
      * @param username
      * @param password
      */
-    public Client(Controller _controller, String ip, String username, String password){
+    public ClientController(SessionController _sessionController, String ip, String username, String password){
         try{
-            controller = _controller;
+            sessionController = _sessionController;
             TS3Config config = new TS3Config();
 
             config.setHost(ip);
@@ -39,7 +39,7 @@ public class Client {
             query.connect();
             api = query.getApi();
             api.login(username,password);
-            api.selectVirtualServerById(controller.settings.virtualServerID);
+            api.selectVirtualServerById(sessionController.settings.virtualServerID);
 
             clientID = api.whoAmI().getId();
             currentChannelID = api.whoAmI().getChannelId();
@@ -47,20 +47,20 @@ public class Client {
             setNickname(api);
 
             try{
-                if (Helper.isNullOrWhitespace(controller.settings.standardChannelName) == false){
-                    api.moveClient(clientID, api.getChannelsByName(controller.settings.standardChannelName).get(0).getId());
+                if (Helper.isNullOrWhitespace(sessionController.settings.standardChannelName) == false){
+                    api.moveClient(clientID, api.getChannelsByName(sessionController.settings.standardChannelName).get(0).getId());
                 }
             } catch (Exception ex) {
                 Logger.log.info("Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
             }
-            standardChannelID = api.getChannelsByName(controller.settings.standardChannelName).get(0).getId();
+            standardChannelID = api.getChannelsByName(sessionController.settings.standardChannelName).get(0).getId();
 
-            commands = new Commands(this);
+            commandsManager = new CommandsManager(this);
             initializeEvents(api, query, this);
-            Logger.log.finest("Client " + clientID + " started successfully!");
+            Logger.log.finest("ClientController " + clientID + " started successfully!");
         } catch ( Exception ex){
             Logger.log.severe("Exception in client constructor - Please check that the server is running and the login credentials are correct: \n" + ex);
-            controller.clientLeave(clientID);
+            sessionController.clientLeave(clientID);
             query.exit();
         }
     }
@@ -84,7 +84,7 @@ public class Client {
         }
     }
 
-    private void initializeEvents(TS3Api api, TS3Query query, Client clientInstance){
+    private void initializeEvents(TS3Api api, TS3Query query, ClientController clientControllerInstance){
         api.registerAllEvents();
         api.addTS3Listeners(new TS3EventAdapter() {
 
@@ -98,7 +98,7 @@ public class Client {
             @Override
             public void onClientLeave(ClientLeaveEvent e) {
                 if (e.getClientId() == followClientID){
-                    controller.clientLeave(clientID);
+                    sessionController.clientLeave(clientID);
                     query.exit();
                 }
             }
@@ -107,7 +107,7 @@ public class Client {
             public void onTextMessage(TextMessageEvent e) {
                 if ((e.getTargetMode() == TextMessageTargetMode.CHANNEL || e.getTargetMode() == TextMessageTargetMode.CLIENT) && e.getInvokerId() != clientID) {
                     if (e.getMessage().charAt(0) == '!') {
-                        commands.handleCommandInput(e, clientInstance);
+                        commandsManager.handleCommandInput(e, clientControllerInstance);
                     }
                 }
             }

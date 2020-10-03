@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -20,7 +20,7 @@ public class DSA extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
             String blancOutput = Outputs.blanc_dsa_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -38,7 +38,7 @@ public class DSA extends Command {
 
             if (inputNumbers[0] <= 0 || inputNumbers[1] <= 0 || inputNumbers[2] <= 0)
             {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabe muss größer oder gleich 0 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabe muss größer oder gleich 0 sein!", false);
             } else {
                 String result = "";
                 int modifikator = 0;
@@ -81,10 +81,10 @@ public class DSA extends Command {
                 reply = reply.replace("$RESULT$", result);
                 reply = reply.replace("$RESSUM$", String.valueOf(Math.abs(ausgleichspunkte)));
 
-                Helper.sendMessage(textEvent, client, reply, false);
+                Helper.sendMessage(textEvent, clientController, reply, false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in DSA with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }

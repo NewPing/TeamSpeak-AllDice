@@ -1,6 +1,6 @@
 package AllDice.Commands;
 
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
@@ -14,7 +14,7 @@ public class PM extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
-        Helper.sendMessage(textEvent, client, "Opened private chat...", true);
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        Helper.sendMessage(textEvent, clientController, "Opened private chat...", true);
     }
 }

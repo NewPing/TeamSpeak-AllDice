@@ -1,7 +1,7 @@
 package AllDice.Commands;
 
 import AllDice.Classes.Outputs;
-import AllDice.Controllers.Client;
+import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
@@ -19,7 +19,7 @@ public class STC extends Command {
     }
 
     @Override
-    public void execute(TextMessageEvent textEvent, Client client) {
+    public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
             String blancOutput = Outputs.blanc_stc_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
@@ -30,7 +30,7 @@ public class STC extends Command {
             inputNumber = Integer.parseInt(values.get(0));
 
             if (inputNumber < 1) {
-                Helper.sendMessage(textEvent, client, "Syntax Error : Eingabewert muss größer oder gleich 1 sein!", false);
+                Helper.sendMessage(textEvent, clientController, "Syntax Error : Eingabewert muss größer oder gleich 1 sein!", false);
             } else {
                 String outputDies = "";
                 int sum = 0;
@@ -69,10 +69,10 @@ public class STC extends Command {
                 reply = reply.replace("$sum$", String.valueOf(sum));
                 reply = reply.replace("$effects$", String.valueOf(effects));
 
-                Helper.sendMessage(textEvent, client, reply, false);
+                Helper.sendMessage(textEvent, clientController, reply, false);
             }
         } catch (Exception ex){
-            Helper.sendMessage(textEvent, client, "An error has occurred...\nPlease try again with different inputs", false);
+            Helper.sendMessage(textEvent, clientController, "An error has occurred...\nPlease try again with different inputs", false);
             Logger.log.severe("Error in STC with input: " + textEvent.getMessage() + "\n\n" + ex);
         }
     }
