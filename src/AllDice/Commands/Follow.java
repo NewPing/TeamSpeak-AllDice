@@ -28,9 +28,13 @@ public class Follow extends Command {
                 clientController.api.moveClient(clientController.clientID, clientController.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
             } catch (Exception ex) { }
             SessionController.isIdleClientOnline = false;
-            new Thread(() -> clientController.sessionController.invokeCreateNewClientInstance()).start();
-        } else {
+            clientController.sessionController.invokeCreateNewClientInstance(false);
+        } else if (clientController.followClientID == textEvent.getInvokerId()){
             Helper.sendMessage(textEvent, clientController, "I m already following you...", false);
+        } else {
+            Helper.sendMessage(textEvent, clientController, "Sorry, i m already following someone else...\n" +
+                    "But there should be another pair of mine, ready to be picked up, in the channel: " +
+                    clientController.sessionController.settings.standardChannelName, false);
         }
     }
 

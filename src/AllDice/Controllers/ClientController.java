@@ -21,6 +21,7 @@ public class ClientController {
     public TS3Api api = null;
     public TS3Query query = null;
     public CommandsManager commandsManager = null;
+    public boolean startedSuccessfully = false;
 
     /**
      * Constructor
@@ -57,6 +58,7 @@ public class ClientController {
 
             commandsManager = new CommandsManager(this);
             initializeEvents(api, query, this);
+            startedSuccessfully = true;
             Logger.log.finest("ClientController " + clientID + " started successfully!");
         } catch ( Exception ex){
             Logger.log.severe("Exception in client constructor - Please check that the server is running and the login credentials are correct: \n" + ex);
