@@ -17,6 +17,7 @@ public class SessionController {
     public static boolean isIdleClientOnline = false;
     private static boolean clientsCrashed = false;
     private static boolean isShutdown = false;
+    public static Timer timerChecks = null;
 
     public SessionController(){
         try{
@@ -42,9 +43,9 @@ public class SessionController {
                         Runtime.getRuntime().exit(-1);
                     }
 
-                    Timer timerStayAlive = new Timer();
-                    TimerTask checkStayAlive = new CheckStayAlive(this);
-                    timerStayAlive.scheduleAtFixedRate(checkStayAlive, 10000, 180000); //every 3 min.
+                    timerChecks = new Timer();
+                    TimerTask checkStayAlive = new TimedChecks(this);
+                    timerChecks.scheduleAtFixedRate(checkStayAlive, 10000, 180000); //every 3 min.
                 } else {
                     Logger.log.severe("Server IP, Query Username or Password not set...");
                 }
@@ -55,7 +56,6 @@ public class SessionController {
         } catch (Exception ex){
             System.out.println("Error in SessionController.SessionController: " + ex);
         }
-
     }
 
     private int loadSettings(){
@@ -74,6 +74,16 @@ public class SessionController {
             return 1;
         }
         return 0;
+    }
+
+    public void shutdown(){
+        for (int i = 0; i < this.clientControllers.size(); i++){
+            this.clientControllers.get(i).query.exit();
+        }
+        this.clientControllers.clear();
+        timerChecks.cancel();
+        timerChecks.purge();
+        SessionManager.invokeCreateNewSessionInstance();
     }
 
     private int loadClientNicknames(){
@@ -165,11 +175,11 @@ public class SessionController {
         }
     }
 
-    class CheckStayAlive extends TimerTask {
+    class TimedChecks extends TimerTask {
 
         private SessionController sessionController = null;
 
-        public CheckStayAlive(SessionController _sessionController) {
+        public TimedChecks(SessionController _sessionController) {
             sessionController = _sessionController;
         }
 

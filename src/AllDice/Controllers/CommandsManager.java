@@ -214,7 +214,7 @@ public class CommandsManager {
                         "!adminhelp",
                         new AdminHelp(),
                         true,
-                        true
+                        false
                 ));
                 add(new CommandDef(
                         commandIndex++,
@@ -246,6 +246,16 @@ public class CommandsManager {
                         true,
                         true
                 ));
+                add(new CommandDef(
+                        commandIndex++,
+                        "reboot",
+                        "!reboot",
+                        "Reboots the AllDice SessionController instance",
+                        "!reboot",
+                        new Reboot(),
+                        true,
+                        true
+                ));
             }
         };
     }
@@ -254,13 +264,12 @@ public class CommandsManager {
         for( int i = 0; i < commands.size(); i++){
             if (commands.get(i).command.check(messageEvent.getMessage().toLowerCase())){
                 if (clientController.followClientID != -1 || commands.get(i).ignoreFollowFlag) {
-                    Logger.log.fine("handleCommand :: User: " + messageEvent.getInvokerName() + "Input: " + messageEvent.getMessage());
-                    if (commands.get(i).requiresAllDiceAdminGroup){
+                    Logger.log.fine("handleCommand :: User: " + messageEvent.getInvokerName() + " - Input: " + messageEvent.getMessage());
+                    if (commands.get(i).requiresAllDiceAdminGroup) {
                         if (Helper.isUserAllDiceAdmin(messageEvent, clientController)){
-                            Helper.sendMessage(messageEvent, clientController, "Command requires elevated permissions - Executing ...", false);
                             commands.get(i).command.execute(messageEvent, clientController);
                         } else {
-                            Helper.sendMessage(messageEvent, clientController, "Command requires elevated permissions - Execution denied ...", false);
+                            Helper.sendMessage(messageEvent, clientController, "Command execution denied ...", false);
                         }
                     } else {
                         commands.get(i).command.execute(messageEvent, clientController);
