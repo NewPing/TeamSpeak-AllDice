@@ -21,7 +21,7 @@ public class Logger {
         try{
             openNewLogfile();
 
-            log.setLevel(Level.FINEST);
+            log.setLevel(Level.ALL);
 
             for(int i = 0; i < log.getHandlers().length; i++){
                 log.removeHandler(log.getHandlers()[i]);

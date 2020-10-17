@@ -28,6 +28,15 @@ public class Helper {
         }
     }
 
+    public static void sendInfoMessage(ClientController clientController, String message, Boolean forcePrivate) {
+        Logger.log.fine(clientController.clientID + ":: Output: " + message);
+        if (forcePrivate){
+            clientController.api.sendTextMessage(TextMessageTargetMode.CLIENT, clientController.followClientID, message);
+        } else {
+            clientController.api.sendTextMessage(TextMessageTargetMode.CHANNEL, clientController.api.getClientInfo(clientController.clientID).getChannelId(), message);
+        }
+    }
+
     public static String getUserColor(String uniqueUserID) {
         String colorCode = "[color=$COLOR$] ";
         if (Helper.userColor.contains(uniqueUserID)) {

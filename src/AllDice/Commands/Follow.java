@@ -22,10 +22,11 @@ public class Follow extends Command {
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         if (clientController.followClientID == -1){
             clientController.followClientID = textEvent.getInvokerId();
+            clientController.isActive = true;
             clientController.followClientUniqueID = textEvent.getInvokerUniqueId();
             Helper.sendMessage(textEvent, clientController, getGreetingText(), false);
             try{
-                clientController.api.moveClient(clientController.clientID, clientController.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
+                clientController.moveClient(clientController.clientID, clientController.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
             } catch (Exception ex) { }
             SessionController.isIdleClientOnline = false;
             clientController.sessionController.invokeCreateNewClientInstance(false);

@@ -15,7 +15,7 @@ public class ClientController {
     public SessionController sessionController;
     public int clientID = -1;
     public int standardChannelID = -1;
-    public int currentChannelID = -1;
+    public boolean isActive = false;
     public int followClientID = -1;
     public String followClientUniqueID = "-1";
     public TS3Api api = null;
@@ -43,23 +43,24 @@ public class ClientController {
             api.selectVirtualServerById(sessionController.settings.virtualServerID);
 
             clientID = api.whoAmI().getId();
-            currentChannelID = api.whoAmI().getChannelId();
 
             setNickname(api);
 
+            boolean leftAfterMove = false;
             try{
                 if (Helper.isNullOrWhitespace(sessionController.settings.standardChannelName) == false){
-                    api.moveClient(clientID, api.getChannelsByName(sessionController.settings.standardChannelName).get(0).getId());
+                    leftAfterMove = moveClient(clientID, api.getChannelsByName(sessionController.settings.standardChannelName).get(0).getId());
                 }
             } catch (Exception ex) {
                 Logger.log.info("Exception in client constructor... couldnt find specified standard channel name... remaining in standard server channel..." + ex);
             }
-            standardChannelID = api.getChannelsByName(sessionController.settings.standardChannelName).get(0).getId();
-
-            commandsManager = new CommandsManager(this);
-            initializeEvents(api, query, this);
-            startedSuccessfully = true;
-            Logger.log.finest("ClientController " + clientID + " started successfully!");
+            if (!leftAfterMove){
+                standardChannelID = api.getChannelsByName(sessionController.settings.standardChannelName).get(0).getId();
+                commandsManager = new CommandsManager(this);
+                initializeEvents(api, query, this);
+                startedSuccessfully = true;
+                Logger.log.fine("ClientController " + clientID + " started successfully!");
+            }
         } catch ( Exception ex){
             Logger.log.severe("Exception in client constructor - Please check that the server is running and the login credentials are correct: \n" + ex);
             sessionController.clientLeave(clientID);
@@ -86,6 +87,26 @@ public class ClientController {
         }
     }
 
+    public boolean moveClient(int clientID, int targetChannelID){
+        boolean leaveAfterFollow = false;
+        api.moveClient(clientID, targetChannelID);
+        for(int i = 0; i < sessionController.clientControllers.size(); i++){
+            ClientController otherClient = sessionController.clientControllers.get(i);
+            if (targetChannelID == otherClient.api.getClientInfo(otherClient.clientID).getChannelId()
+                && this.clientID != otherClient.clientID
+                    && this.isActive == otherClient.isActive){
+                        leaveAfterFollow = true;
+            }
+        }
+
+        if (leaveAfterFollow){
+            Helper.sendInfoMessage(this, "Found other AllDice-Client in this channel... I'm leaving", this.isActive);
+            sessionController.clientLeave(clientID);
+            query.exit();
+        }
+        return leaveAfterFollow;
+    }
+
     private void initializeEvents(TS3Api api, TS3Query query, ClientController clientControllerInstance){
         api.registerAllEvents();
         api.addTS3Listeners(new TS3EventAdapter() {
@@ -93,7 +114,7 @@ public class ClientController {
             @Override
             public void onClientMoved(ClientMovedEvent e) {
                 if (e.getClientId() == followClientID) {
-                    api.moveClient(clientID, e.getTargetChannelId());
+                    moveClient(clientID, e.getTargetChannelId());
                 }
             }
 
