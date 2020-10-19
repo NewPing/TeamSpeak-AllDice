@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class CommandsManager {
     private ClientController clientController = null;
     public ArrayList<CommandDef> commands = null;
-    public static int commandIndex = 1;
+    public int commandIndex = 1;
 
     public CommandsManager(ClientController _clientController){
         clientController = _clientController;
