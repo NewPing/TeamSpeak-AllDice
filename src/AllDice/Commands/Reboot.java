@@ -15,7 +15,6 @@ public class Reboot extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
-        Helper.sendMessage(textEvent, clientController, "Attempting to reboot...", false);
-        clientController.sessionController.shutdown();
+        clientController.sessionController.reboot();
     }
 }

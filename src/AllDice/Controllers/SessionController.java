@@ -6,6 +6,7 @@ import AllDice.Helper.*;
 import AllDice.Models.Settings;
 import AllDice.Models.UserConfigs;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -78,6 +79,18 @@ public class SessionController {
 
     public void shutdown(){
         for (int i = 0; i < this.clientControllers.size(); i++){
+            Helper.sendInfoMessage(this.clientControllers.get(i), "Admin caused shutdown: Shutting down...", false);
+            this.clientControllers.get(i).query.exit();
+        }
+        this.clientControllers.clear();
+        timerChecks.cancel();
+        timerChecks.purge();
+        System.exit(0);
+    }
+
+    public void reboot(){
+        for (int i = 0; i < this.clientControllers.size(); i++){
+            Helper.sendInfoMessage(this.clientControllers.get(i), "Admin caused reboot: Attempting to reboot...", false);
             this.clientControllers.get(i).query.exit();
         }
         this.clientControllers.clear();

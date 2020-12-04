@@ -5,8 +5,8 @@ import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-public class Shutdown extends Command {
-    public static String matchPattern = "^!shutdown(?: +)?$";
+public class ForceLeave extends Command {
+    public static String matchPattern = "^!forceLeave(?: +)?$";
 
     @Override
     public boolean check(String input) {
@@ -15,6 +15,6 @@ public class Shutdown extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
-        clientController.sessionController.shutdown();
+        Leave.leave(textEvent, clientController, "Admin forced leave: leaving...");
     }
 }

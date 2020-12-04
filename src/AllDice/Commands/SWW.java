@@ -12,10 +12,11 @@ import java.util.ArrayList;
 
 public class SWW extends Command {
     public static String matchPattern = "^!sww[0-9]+((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)(?: +)?$";
+    public static String matchPattern2 = "^!ssw[0-9]+((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)(?: +)?$";
 
     @Override
     public boolean check(String input) {
-        return input.toLowerCase().matches(matchPattern.toLowerCase());
+        return input.toLowerCase().matches(matchPattern.toLowerCase()) || input.toLowerCase().matches(matchPattern2.toLowerCase());
     }
 
     @Override

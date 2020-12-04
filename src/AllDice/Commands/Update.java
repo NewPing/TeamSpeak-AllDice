@@ -15,7 +15,7 @@ public class Update extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
-        Helper.sendMessage(textEvent, clientController, "not implemented yet...", false);
+        Helper.sendMessage(textEvent, clientController, "not yet implemented...", false);
         return;
 
         /*

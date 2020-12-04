@@ -218,9 +218,19 @@ public class CommandsManager {
                 ));
                 add(new CommandDef(
                         commandIndex++,
+                        "forceLeave",
+                        "!forceLeave",
+                        "Forces all AllDice Instances in the given text channel to leave",
+                        "!forceLeave",
+                        new ForceLeave(),
+                        true,
+                        true
+                ));
+                add(new CommandDef(
+                        commandIndex++,
                         "update",
                         "!update",
-                        "Checks and performs a update of AllDice (if a newer version exists)",
+                        "Not yet implemented! - Checks and performs a update of AllDice (if a newer version exists)",
                         "!update",
                         new Update(),
                         true,
@@ -250,9 +260,19 @@ public class CommandsManager {
                         commandIndex++,
                         "reboot",
                         "!reboot",
-                        "Reboots the AllDice SessionController instance",
+                        "Shuts down all AllDice instances and then reboots",
                         "!reboot",
                         new Reboot(),
+                        true,
+                        true
+                ));
+                add(new CommandDef(
+                        commandIndex++,
+                        "shutdown",
+                        "!shutdown",
+                        "Shuts down AllDice and all of its instances",
+                        "!shutdown",
+                        new Shutdown(),
                         true,
                         true
                 ));

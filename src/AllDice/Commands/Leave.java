@@ -5,6 +5,8 @@ import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
+import java.awt.event.TextEvent;
+
 public class Leave extends Command {
     public static String matchPattern = "^!leave(?: +)?$";
 
@@ -16,11 +18,15 @@ public class Leave extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         if (textEvent.getInvokerId() == clientController.followClientID){
-            Helper.sendMessage(textEvent, clientController, "leaving...", false);
-            clientController.sessionController.clientLeave(clientController.clientID);
-            clientController.query.exit();
+            leave(textEvent, clientController, "leaving...");
         } else {
             Helper.sendMessage(textEvent, clientController, "Cant force me to leave, when you are not the one i m following...", false);
         }
+    }
+
+    public static void leave(TextMessageEvent textEvent, ClientController clientController, String message){
+        Helper.sendMessage(textEvent, clientController, message, false);
+        clientController.sessionController.clientLeave(clientController.clientID);
+        clientController.query.exit();
     }
 }
