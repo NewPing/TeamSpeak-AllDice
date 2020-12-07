@@ -140,24 +140,15 @@ public class DiceHelper {
     }
 
     public static String getFateOutcomeName(int outcome, String outcomeHighName){
-        switch (outcome)
-        {
-            case 4:
-                return "⏫ Voller Erfolg";
-            case 3:
-                return "🔼 Erfolg";
-            case 2:
-                return "🔼 Erfolg";
-            case 1:
-                return "⏸️ Gleichstand";
-            case 0:
-                return "🔽 Fehlschlag oder Erfolg mit Haken";
-        }
 
-        if (outcome > 4) {
-            return "♾ ️" + outcomeHighName;
+        if (outcome < 0){
+            return "🔽 Fehlschlag oder Erfolg mit Haken";
+        } else if (outcome == 0){
+            return "⏸️ Gleichstand";
+        } else if (outcome == 1 || outcome == 2){
+            return "🔼 Erfolg";
         } else {
-            return "⏬ Fehlschlag";
+            return "⏫ Voller Erfolg";
         }
     }
 

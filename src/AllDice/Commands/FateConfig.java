@@ -22,7 +22,8 @@ public class FateConfig extends Command {
         try{
             if (textEvent.getInvokerUniqueId().equals(clientController.followClientUniqueID)){
                 List<String> inputWords = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "[^\\s]+");
-                if (inputWords.size() >= 2 && inputWords.get(1).toLowerCase().matches("(abilityhigh|abilitylow|outcomehigh)")){
+                //if (inputWords.size() >= 2 && inputWords.get(1).toLowerCase().matches("(abilityhigh|abilitylow|outcomehigh)")){
+                if (inputWords.size() >= 2 && inputWords.get(1).toLowerCase().matches("(abilityhigh|abilitylow)")){
                     if (inputWords.size() >= 3){
                         String param = inputWords.get(1);
                         String newValue = "";
@@ -54,11 +55,11 @@ public class FateConfig extends Command {
                         }
                         if (param.toLowerCase().contains("abilityhigh")) {
                             userConfig.fateAbilityHighName = null;
-                        } else if (param.toLowerCase().contains("abilitylow")) {
+                        } else {//if (param.toLowerCase().contains("abilitylow")) {
                             userConfig.fateAbilityLowName = null;
-                        } else { //outcome
-                            userConfig.fateOutcomeHighName = null;
-                        }
+                        } //else { //outcome
+                            //userConfig.fateOutcomeHighName = null;
+                        //}
                         Helper.userConfigs.userConfigs.add(textEvent.getInvokerUniqueId(), userConfig);
 
                         Helper.sendMessage(textEvent, clientController, "Neuer Parameterwert für '" + param + "' auf Standardwert zurückgesetzt...", false);

@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 public class Fate extends Command {
     public static String matchPattern = "^!f(:?(?:(?:[0-9]+((:?((:?\\+)?|(:?\\-)?)[0-9]+)?))?(?:,(((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)|f(?:[0-9]+((:?((:?\\+)?|(:?\\-)?)[0-9]+)?))?))?)?)?(?: +)?$";
-    public static String passiveThrow = "^!f(:?(?:(?:[0-9]+((:?((:?\\+)?|(:?\\-)?)[0-9]+)?))?(?:,(((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)))?)?)?(?: +)?$";
+    public static String passiveThrow = "^!f(:?(a|d))?(:?(?:(?:[0-9]+((:?((:?\\+)?|(:?\\-)?)[0-9]+)?))?(?:,(((:?((:?\\+)?|(:?\\-)?)[0-9]+)?)))?)?)?(?: +)?$";
+    private int abilityLastThrow = 0;
 
     @Override
     public boolean check(String input) {
@@ -21,6 +22,16 @@ public class Fate extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
+        fateThrow(textEvent, clientController, 0, Outputs.blanc_fate_passive_Output);
+    }
+
+    /***
+     *
+     * @param textEvent
+     * @param clientController
+     * @param fateSequenceType 0: no fate sequence throw; 1: throw is attacker; 2: throw is defender
+     */
+    public void fateThrow(TextMessageEvent textEvent, ClientController clientController, int fateSequenceType, String blancOutput){
         String abilityHighName = "Unbeschreibbar";
         String abilityLowName = "Unbeschreibbar schlecht";
         String outcomeHighName = "Unbeschreibbarer Erfolg";
@@ -40,7 +51,7 @@ public class Fate extends Command {
 
         try{
             if (textEvent.getMessage().matches(passiveThrow)){
-                executePassive(textEvent, clientController, outcomeHighName, abilityHighName, abilityLowName);
+                executePassive(textEvent, clientController, outcomeHighName, abilityHighName, abilityLowName, fateSequenceType, blancOutput);
             } else {
                 executeActive(textEvent, clientController, outcomeHighName, abilityHighName, abilityLowName);
             }
@@ -50,16 +61,27 @@ public class Fate extends Command {
         }
     }
 
-    private void executePassive(TextMessageEvent textEvent, ClientController clientController, String outcomeHighName, String abilityHighName, String abilityLowName){
+    /***
+     *
+     * @param textEvent
+     * @param clientController
+     * @param outcomeHighName
+     * @param abilityHighName
+     * @param abilityLowName
+     * @param fateSequenceType 0: no fate sequence throw; 1: first fate throw is attacker; 2: first throw is defender
+     */
+    private void executePassive(TextMessageEvent textEvent, ClientController clientController, String outcomeHighName, String abilityHighName, String abilityLowName, int fateSequenceType, String blancOutput){
         try{
             ArrayList<String> values = Helper.getRegexMatches(textEvent.getMessage().toLowerCase(), "\\d+");
-            String blancOutput = Outputs.blanc_fate_passive_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             String reply = "";
             //set default values (if no input is given, just !f)
             int skill = 0;
             int mod = 0;
-            int goal = 0;
+            int goal = 1;
+            if (fateSequenceType != 0){
+                goal = abilityLastThrow;
+            }
 
             int[] rolls = rollFates();
 
@@ -108,16 +130,42 @@ public class Fate extends Command {
 
             int ability = rolls[4] + skill + mod;
             int outcome = ability - goal;
+            int outcomeAttacker = 0;
+            int outcomeDefender = 0;
+            String resistanceType = "";
+            String outcomeNameAttacker = "";
+            String outcomeNameDefender = "";
+
+            if (textEvent.getMessage().toLowerCase().matches(FateSequence.matchPatternAttacker))
+            {
+                resistanceType = "Verteidigungs";
+                outcomeAttacker = ability - goal;
+                outcomeDefender = goal - ability;
+            } else {
+                resistanceType = "Angriffs";
+                outcomeAttacker = goal - ability;
+                outcomeDefender = ability - goal;
+            }
+
+            outcomeNameAttacker = DiceHelper.getFateOutcomeName(outcomeAttacker, outcomeHighName);
+            outcomeNameDefender = DiceHelper.getFateOutcomeName(outcomeDefender, outcomeHighName);
+
+            abilityLastThrow = ability;
 
             reply += blancOutput;
             reply = reply.replace("$SKILL$", String.valueOf(skill));
             reply = reply.replace("$MOD$", String.valueOf(mod));
+            reply = reply.replace("$RESISTANCETYPE$", resistanceType);
             reply = reply.replace("$RESULT$", String.valueOf(rolls[4]));
             reply = reply.replace("$ABILITY$", String.valueOf(ability));
             reply = reply.replace("$OUTCOME$", String.valueOf(outcome));
+            reply = reply.replace("$OUTCOMEATTACKER$", String.valueOf(outcomeAttacker));
+            reply = reply.replace("$OUTCOMEDEFENDER$", String.valueOf(outcomeDefender));
             reply = reply.replace("$GOAL$", String.valueOf(goal));
             reply = reply.replace("$ABILITYNAME$", DiceHelper.getFateAbilityName(ability, abilityHighName, abilityLowName));
             reply = reply.replace("$OUTCOMENAME$", DiceHelper.getFateOutcomeName(outcome, outcomeHighName));
+            reply = reply.replace("$OUTCOMENAMEATTACKER$", outcomeNameAttacker);
+            reply = reply.replace("$OUTCOMENAMEDEFENDER$", outcomeNameDefender);
             reply = reply.replace("$EMOJIS$", DiceHelper.getFateEmojis(rolls));
 
             Helper.sendMessage(textEvent, clientController, reply, false);
@@ -174,6 +222,8 @@ public class Fate extends Command {
 
             int ability = rolls[4] + skill + mod;
             int abilityop = rollsop[4] + skillop + modop;
+
+            abilityLastThrow = ability;
 
             int outcome = ability - abilityop;
 

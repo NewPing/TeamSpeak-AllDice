@@ -39,6 +39,13 @@ public class Outputs {
                     "Wurf: $EMOJIS$ = $RESULT$\n" +
                     "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ( $ABILITYNAME$ )\n" +
                     "Ergebnis: $OUTCOME$ ( $OUTCOMENAME$ )";
+    public static String blanc_fate_Sequence_Output =
+            "--$AUTHOR$--\n" +
+                    "Fertigkeit ist $SKILL$+$MOD$, vorhergehende $RESISTANCETYPE$-Widerstand ist eine $GOAL$.\n\n" +
+                    "Wurf: $EMOJIS$ = $RESULT$\n" +
+                    "Rechnung: $RESULT$+$SKILL$+$MOD$ = $ABILITY$ ( $ABILITYNAME$ )\n" +
+                    "Ergebnis Angreifer: $OUTCOMEATTACKER$ ( $OUTCOMENAMEATTACKER$ )\n" +
+                    "Ergebnis Verteidiger: $OUTCOMEDEFENDER$ ( $OUTCOMENAMEDEFENDER$ )";
     public static String blanc_fate_active_Output =
             "--$AUTHOR$--\n" +
                     "Fertigkeit ist $SKILL$+$MOD$, aktiver Widerstand ist Fertigkeit $SKILLOPPONENT$+$MODOPPONENT$.\n\n" +

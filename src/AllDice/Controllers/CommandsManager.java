@@ -156,13 +156,24 @@ public class CommandsManager {
                         false,
                         false
                 ));
+                Fate fate = new Fate();
                 add(new CommandDef(
                         commandIndex++,
                         "Fate Probe",
                         "!f(skill)(+/-)(mod),(goal)/(f(skill2)(+/-)(mod2))",
                         "Würfelt einen Fate Probewurf",
                         "!f5+2,3",
-                        new Fate(),
+                        fate,
+                        false,
+                        false
+                ));
+                add(new CommandDef(
+                        commandIndex++,
+                        "Fate Sequence Probe",
+                        "!f(a/d)(skill)(+/-)(mod)",
+                        "Würfelt einen Fate Probewurf und nimmt den das Ergebnis des zuletzt gewürfelten Fate-Wurfes als Widerstand. !fa um den Wurf als Angriff gelten zu lassen, !fd zum Verteidigen.",
+                        "!fa5+2",
+                        new FateSequence(fate),
                         false,
                         false
                 ));
