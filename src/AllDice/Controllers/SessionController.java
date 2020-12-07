@@ -14,7 +14,7 @@ import java.util.TimerTask;
 public class SessionController {
     public static ArrayList<ClientController> clientControllers = new ArrayList<>();
     public static Settings settings;
-    public static final String Version = "1.3.2";
+    public static final String Version = "1.4.0";
     public static boolean isIdleClientOnline = false;
     private static boolean clientsCrashed = false;
     private static boolean isShutdown = false;

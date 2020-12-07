@@ -39,9 +39,9 @@ public class FateConfig extends Command {
                             userConfig.fateAbilityHighName = newValue;
                         } else if (param.toLowerCase().contains("abilitylow")) {
                             userConfig.fateAbilityLowName = newValue;
-                        } else { //outcome
-                            userConfig.fateOutcomeHighName = newValue;
-                        }
+                        } //else { //outcome
+                            //userConfig.fateOutcomeHighName = newValue;
+                        //}
                         Helper.userConfigs.userConfigs.add(textEvent.getInvokerUniqueId(), userConfig);
 
                         Helper.sendMessage(textEvent, clientController, "Neuer Parameterwert für '" + param + "' auf '" + newValue + "' gesetzt...", false);
@@ -55,7 +55,7 @@ public class FateConfig extends Command {
                         }
                         if (param.toLowerCase().contains("abilityhigh")) {
                             userConfig.fateAbilityHighName = null;
-                        } else {//if (param.toLowerCase().contains("abilitylow")) {
+                        } else if (param.toLowerCase().contains("abilitylow")) {
                             userConfig.fateAbilityLowName = null;
                         } //else { //outcome
                             //userConfig.fateOutcomeHighName = null;
@@ -66,6 +66,7 @@ public class FateConfig extends Command {
                         FileIO.serializeToFile("userconfigs.json", Helper.userConfigs);
                     }
                 } else {
+                    //Helper.sendMessage(textEvent, clientController, "Syntax Error : Anzahl Eingabeparameter müssen >= 2 sein und abilityhigh, abilitylow oder outcomehigh als parameter enthalten!", false);
                     Helper.sendMessage(textEvent, clientController, "Syntax Error : Anzahl Eingabeparameter müssen >= 2 sein und abilityhigh, abilitylow oder outcomehigh als parameter enthalten!", false);
                 }
             } else {
