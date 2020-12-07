@@ -181,8 +181,8 @@ public class CommandsManager {
                         commandIndex++,
                         "Fate Config",
                         "!fconfig (option) (new output)",
-                        "Ermöglicht das setzen der Ausgabetexte von abilityHigh, abilityLow und outcomeHigh",
-                        "!fconfig outcome Unbeschreibbar",
+                        "Ermöglicht das setzen der Ausgabetexte von abilityHigh and abilityLow", //und outcomeHigh",
+                        "!fconfig abilityHigh Unbeschreibbar",
                         new FateConfig(),
                         false,
                         false
