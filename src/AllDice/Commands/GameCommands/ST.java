@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
@@ -25,7 +25,7 @@ public class ST extends Command {
 
     public static void starTrek(TextMessageEvent textEvent, ClientController clientController, boolean isFocus){
         try{
-            String blancOutput = Outputs.blanc_st_Output;
+            String blancOutput = BlancOutputs.blanc_st_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             String reply = "";

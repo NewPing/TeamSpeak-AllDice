@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
@@ -22,7 +22,7 @@ public class Fate extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
-        fateThrow(textEvent, clientController, 0, Outputs.blanc_fate_passive_Output);
+        fateThrow(textEvent, clientController, 0, BlancOutputs.blanc_fate_passive_Output);
     }
 
     /***
@@ -181,7 +181,7 @@ public class Fate extends Command {
             if (textEvent.getMessage().contains(",")){
                 valuesRight = Helper.getRegexMatches(textEvent.getMessage().toLowerCase().split(",")[1], "\\d+"); //after , (opponent)
             }
-            String blancOutput = Outputs.blanc_fate_active_Output;
+            String blancOutput = BlancOutputs.blanc_fate_active_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             String reply = "";
             //set default values (if no input is given, just !f)

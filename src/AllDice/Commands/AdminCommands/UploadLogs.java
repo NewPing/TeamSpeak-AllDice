@@ -1,4 +1,4 @@
-package AllDice.Commands;
+package AllDice.Commands.AdminCommands;
 
 import AllDice.Classes.Logger;
 import AllDice.Controllers.ClientController;

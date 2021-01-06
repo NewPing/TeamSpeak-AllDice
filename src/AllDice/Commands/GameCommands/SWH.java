@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
@@ -19,7 +19,7 @@ public class SWH extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
-            String blancOutput = Outputs.blanc_swh_Output;
+            String blancOutput = BlancOutputs.blanc_swh_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] randomNumbers = new int[3];
             String reply = "";

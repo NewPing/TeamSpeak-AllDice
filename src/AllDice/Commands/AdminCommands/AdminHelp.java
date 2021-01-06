@@ -1,12 +1,12 @@
-package AllDice.Commands;
+package AllDice.Commands.AdminCommands;
 
+import AllDice.Commands.BasicCommands.Help;
 import AllDice.Controllers.ClientController;
-import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-public class Reboot extends Command {
-    public static String matchPattern = "^!reboot(?: +)?$";
+public class AdminHelp extends Command {
+    public static String matchPattern = "^!adminhelp(:?((:?( )?)[0-9]+)?)(?: +)?$";
 
     @Override
     public boolean check(String input) {
@@ -15,6 +15,6 @@ public class Reboot extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
-        clientController.sessionController.reboot();
+        Help.help(textEvent, clientController, true);
     }
 }

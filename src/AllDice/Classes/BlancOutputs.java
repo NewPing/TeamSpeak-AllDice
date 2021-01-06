@@ -1,6 +1,6 @@
 package AllDice.Classes;
 
-public class Outputs {
+public class BlancOutputs {
     public static String blanc_w_Output =
             "--$AUTHOR$--\n" +
                     "Rechnung: $RANDNUMBER$ = $SUM$\nSumme: $SUM$+$ADD$\nErgebnis = $RESULT$";

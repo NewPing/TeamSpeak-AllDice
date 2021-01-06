@@ -1,4 +1,4 @@
-package AllDice.Commands;
+package AllDice.Commands.BasicCommands;
 
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.FileIO;

@@ -1,12 +1,12 @@
-package AllDice.Commands;
+package AllDice.Commands.BasicCommands;
 
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-public class ForceLeave extends Command {
-    public static String matchPattern = "^!forceLeave(?: +)?$";
+public class PM extends Command {
+    public static String matchPattern = "^!pm(?: +)?$";
 
     @Override
     public boolean check(String input) {
@@ -15,6 +15,6 @@ public class ForceLeave extends Command {
 
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
-        Leave.leave(textEvent, clientController, "Admin forced leave: leaving...");
+        Helper.sendMessage(textEvent, clientController, "Opened private chat...", true);
     }
 }

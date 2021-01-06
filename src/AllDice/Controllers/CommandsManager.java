@@ -1,5 +1,7 @@
 package AllDice.Controllers;
-import AllDice.Commands.*;
+import AllDice.Commands.AdminCommands.*;
+import AllDice.Commands.BasicCommands.*;
+import AllDice.Commands.GameCommands.*;
 import AllDice.Helper.Helper;
 import AllDice.Classes.Logger;
 import AllDice.Models.CommandDef;

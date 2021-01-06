@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
@@ -20,7 +20,7 @@ public class CTH extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
-            String blancOutput = Outputs.blanc_cth_Output;
+            String blancOutput = BlancOutputs.blanc_cth_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             int randomNumber = DiceHelper.getRandomNumber(100);
@@ -60,7 +60,7 @@ public class CTH extends Command {
                     if (randomNumber <= (inputNumbers[0]  + inputNumbers[1]) / 2){
                         result = "Schwerer Erfolg!";
                         if (randomNumber <= (inputNumbers[0] + inputNumbers[1]) / 5){
-                            result = "Extremer Erfolg!";
+                            result = "Kritischer Erfolg!";
                         }
                     }
                 } else {

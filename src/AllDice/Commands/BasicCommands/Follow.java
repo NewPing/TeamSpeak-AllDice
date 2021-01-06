@@ -1,16 +1,19 @@
-package AllDice.Commands;
+package AllDice.Commands.BasicCommands;
 
+import AllDice.Classes.Logger;
 import AllDice.Controllers.ClientController;
 import AllDice.Controllers.SessionController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
 import AllDice.Models.Command;
+import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
+import java.awt.event.TextEvent;
 import java.util.ArrayList;
 
 public class Follow extends Command {
-    public static String matchPattern = "^!follow(?: +)?$";
+    public static String matchPattern = "^!follow(?:.+)?$";
     private ArrayList<String> greetingTexts = getGreetingsList();
 
     @Override
@@ -24,9 +27,22 @@ public class Follow extends Command {
             clientController.followClientID = textEvent.getInvokerId();
             clientController.isActive = true;
             clientController.followClientUniqueID = textEvent.getInvokerUniqueId();
+
+            //set custom nickname, given by the user
+            ArrayList<String> substrings = Helper.getRegexMatches(textEvent.getMessage(), " .+");
+            if (substrings.size() > 0) {
+                try {
+                    clientController.api.setNickname(substrings.get(0));
+                } catch (Exception e){
+                    Logger.log.warning("Exception while setting nickname in 'follow'" + e.toString());
+                }
+            }
+
             Helper.sendMessage(textEvent, clientController, getGreetingText(), false);
             try{
-                clientController.moveClient(clientController.clientID, clientController.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
+                if (textEvent.getTargetMode() != TextMessageTargetMode.CHANNEL) {
+                    clientController.moveClient(clientController.clientID, clientController.api.getClientInfo(textEvent.getInvokerId()).getChannelId());
+                }
             } catch (Exception ex) { }
             SessionController.isIdleClientOnline = false;
             clientController.sessionController.invokeCreateNewClientInstance(false);

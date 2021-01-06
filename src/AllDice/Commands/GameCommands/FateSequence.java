@@ -1,8 +1,7 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
-import AllDice.Helper.Helper;
 import AllDice.Models.Command;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -24,10 +23,10 @@ public class FateSequence extends Command {
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         if (textEvent.getMessage().toLowerCase().matches(matchPatternAttacker)){
             //attack
-            fate.fateThrow(textEvent, clientController, 1, Outputs.blanc_fate_Sequence_Output);
+            fate.fateThrow(textEvent, clientController, 1, BlancOutputs.blanc_fate_Sequence_Output);
         } else {
             //defend
-            fate.fateThrow(textEvent, clientController, 2, Outputs.blanc_fate_Sequence_Output);
+            fate.fateThrow(textEvent, clientController, 2, BlancOutputs.blanc_fate_Sequence_Output);
         }
     }
 }

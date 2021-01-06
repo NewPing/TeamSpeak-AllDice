@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
@@ -21,7 +21,7 @@ public class STC extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
-            String blancOutput = Outputs.blanc_stc_Output;
+            String blancOutput = BlancOutputs.blanc_stc_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int inputNumber;
             String reply = "";

@@ -1,6 +1,6 @@
-package AllDice.Commands;
+package AllDice.Commands.GameCommands;
 
-import AllDice.Classes.Outputs;
+import AllDice.Classes.BlancOutputs;
 import AllDice.Controllers.ClientController;
 import AllDice.Helper.DiceHelper;
 import AllDice.Helper.Helper;
@@ -21,7 +21,7 @@ public class SWS extends Command {
     @Override
     public void execute(TextMessageEvent textEvent, ClientController clientController) {
         try{
-            String blancOutput = Outputs.blanc_sws_Output;
+            String blancOutput = BlancOutputs.blanc_sws_Output;
             blancOutput = blancOutput.replace("$AUTHOR$", textEvent.getInvokerName());
             int[] inputNumbers = null;
             Tuple<Integer, String> explodingDice0 = null;
